@@ -1,4 +1,4 @@
-/* style.css für die Vokabeltrainer-App, angepasst an den Grammatiktrainer-Stil */
+/* style.css für die Vokabeltrainer-App, angepasst an den Grammatiktrainer-Stil (Splash-Screen korrigiert) */
 
 /* GRUNDSTILE & DESIGN-ANLEHNUNG vom Grammatiktrainer */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&family=Merriweather:wght@400;700&display=swap');
@@ -15,28 +15,26 @@
     --border-color: #dee2e6;
     --success-color: #198754;
     --error-color: #dc3545;
-    --xp-color: #ffc107; /* Wird in Vokabeltrainer evtl. anders genutzt */
-    --warning-color: #ffc107; /* Für "started" Buttons etc. */
+    --xp-color: #ffc107; 
+    --warning-color: #ffc107;
     --warning-text-color: #664d03;
     --warning-bg-color: #fff3cd;
     --warning-border-color: #ffc107;
 
-
-    /* Vokabeltrainer spezifische Farben (können später angepasst werden) */
-    --flashcard-bg: #e0f2fe; /* light sky */
-    --flashcard-text: #0c4a6e; /* sky 800 */
+    --flashcard-bg: #e0f2fe; 
+    --flashcard-text: #0c4a6e; 
     --option-button-bg: #F9FAFB;
-    --option-button-hover-bg: #f3f4f6; /* gray 100 oder 200 */
+    --option-button-hover-bg: #f3f4f6; 
     --progress-bar-fill: var(--primary-blue);
-    --progress-bar-bg: #e9ecef; /* gray 200 */
+    --progress-bar-bg: #e9ecef; 
 
-    --streak-active-text: #9a3412; /* orange 800 */
-    --streak-active-bg: #ffedd5; /* orange 100 */
-    --streak-active-border: #fdba74; /* orange 300 */
+    --streak-active-text: #9a3412; 
+    --streak-active-bg: #ffedd5; 
+    --streak-active-border: #fdba74; 
 
     --streak-inactive-text: var(--muted-text);
-    --streak-inactive-bg: #f3f4f6; /* slate 100 */
-    --streak-inactive-border: #e5e7eb; /* slate 200 */
+    --streak-inactive-bg: #f3f4f6; 
+    --streak-inactive-border: #e5e7eb; 
 }
 
 * {
@@ -45,83 +43,78 @@
     padding: 0;
 }
 
-/* Anpassung des body-Stils an den Grammatiktrainer */
 body {
-    font-family: 'Poppins', sans-serif; /* Hauptschriftart vom Grammatiktrainer */
-    background-color: var(--background-color); /* Hintergrund vom Grammatiktrainer */
+    font-family: 'Poppins', sans-serif; 
+    background-color: var(--background-color); 
     color: var(--dark-text);
     line-height: 1.6;
-    display: flex; /* Beibehaltung für Zentrierung */
-    align-items: center; /* Beibehaltung für Zentrierung */
-    justify-content: center; /* Beibehaltung für Zentrierung */
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
     min-height: 100vh;
-    margin: 0; /* Zurücksetzen für den Fall, dass Tailwind dies anders setzt */
-    padding: 2rem 0; /* Ähnlich wie Vokabeltrainer, aber anpassbar */
+    margin: 0; 
+    padding: 2rem 0; 
 }
 
-/* Anpassung von .app-shell-container (falls es spezifische Stile hatte) */
 .app-shell-container {
-    display: flex; /* Muss bleiben für die Sichtbarkeitslogik */
+    display: none; 
     flex-direction: column;
     align-items: center;
     justify-content: center;
     min-height: 100vh;
     width: 100%;
 }
-.app-shell-container.visible { /* Muss bleiben */
-    display: flex;
+.app-shell-container.visible {
+    /* display: flex; wird schon von JS gesetzt */
 }
 
 
-/* Anpassung von .app-shell (Hauptcontainer der Vokabel-App) an #app-container vom Grammatiktrainer */
 .app-shell {
-    background-color: var(--app-shell-background); /* Entspricht --card-background im Grammatiktrainer für den Hauptblock */
-    max-width: 800px; /* Wie #app-container im Grammatiktrainer */
+    background-color: var(--app-shell-background); 
+    max-width: 800px; 
     width: 100%;
     display: flex;
     flex-direction: column;
-    border-radius: 8px; /* Wie #app-container */
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1); /* Wie #app-container */
-    height: calc(100vh - 4rem); /* Beibehaltung der Vokabeltrainer-Höhe */
-    max-height: calc(100vh - 4rem); /* Beibehaltung der Vokabeltrainer-Höhe */
-    overflow: hidden; /* Wie #app-container */
+    border-radius: 8px; 
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
+    height: calc(100vh - 4rem); 
+    max-height: calc(100vh - 4rem); 
+    overflow: hidden; 
 }
 
-/* Anpassung des .header (Vokabel-App) an .app-header vom Grammatiktrainer */
 .header {
     background-color: var(--header-blue);
     color: white;
     padding: 1.25rem 1.5rem;
     display: flex;
     align-items: center;
-    justify-content: center; /* Zentrierung beibehalten oder anpassen */
+    justify-content: center; 
     flex-shrink: 0;
 }
 
-.header .header-logo-svg { /* Stile vom Grammatiktrainer .header-logo-svg */
+.header .header-logo-svg { 
     width: 40px;
     height: 40px;
     margin-right: 12px;
 }
 
 .header h1 {
-    font-family: 'Merriweather', serif; /* Wie .app-header h1 */
-    font-size: 2rem; /* Wie .app-header h1 */
+    font-family: 'Merriweather', serif; 
+    font-size: 2rem; 
     font-weight: 700;
-    color: white; /* Sicherstellen, dass es weiß ist */
+    color: white; 
 }
 
-.header .header-subtitle { /* Stile vom Grammatiktrainer .app-header .subtitle */
+.header .header-subtitle { 
     font-size: 0.875rem;
     color: white;
     opacity: 0.9;
     margin-top: 0.25rem;
-    text-align: center; /* Grammatiktrainer-Stil */
+    text-align: center; 
 }
 
-/* Hauptinhaltsbereich der Vokabel-App */
 .main-app-content {
-    padding: 1rem 1.5rem 1.5rem 1.5rem; /* Ähnlich wie 'main' im Grammatiktrainer */
+    padding: 1rem 1.5rem 1.5rem 1.5rem; 
     flex-grow: 1;
     overflow-y: auto;
 }
@@ -129,59 +122,50 @@ body {
 .view-animation { animation: fadeInView 0.4s ease-out; }
 @keyframes fadeInView { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-
-/* Allgemeine Karten-Stile (Basis für .card-content etc. in Vokabel-App) */
-.card-content, /* Vokabel-App spezifische Klasse für Quiz-Karten */
-.quiz-stats-text, /* Text innerhalb von Quiz-Karten */
-.bg-white.p-4.rounded-lg.shadow-md /* Beispiel für Tailwind-basierte Karten in Vokabel-App */ {
+.card-content, 
+.quiz-stats-text, 
+.bg-white.p-4.rounded-lg.shadow-md {
     background-color: var(--card-background);
     border: 1px solid var(--border-color);
-    border-radius: 8px; /* Wie .card im Grammatiktrainer */
-    /* padding wird individuell von Tailwind Klassen gesetzt, kann hier aber als default dienen */
-    padding: 1.5rem; /* Standard-Padding wie .card */
-    margin-bottom: 1.5rem; /* Wie .card */
-    box-shadow: 0 4px 6px rgba(0,0,0,0.05); /* Wie .card */
+    border-radius: 8px; 
+    padding: 1.5rem; 
+    margin-bottom: 1.5rem; 
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05); 
 }
-/* Spezifischer für die Quiz-Karten, falls .card-content die Hauptklasse ist */
-.card-content {
-     /* Behält seine spezifischen Tailwind-Klassen für Padding, aber erbt den Rest von oben */
-}
+.card-content {}
 
-
-h2 { /* Allgemeiner h2 Stil vom Grammatiktrainer */
+h2 { 
     font-size: 1.5rem;
     margin-bottom: 1rem;
     text-align: center;
 }
 
-h3 { /* Allgemeiner h3 Stil vom Grammatiktrainer */
-    font-size: 1.2rem; /* Leicht reduziert ggü. Grammatiktrainer für Vokabel-App Kontext */
+h3 { 
+    font-size: 1.2rem; 
     margin-bottom: 1rem;
 }
 
-/* BUTTON STYLES - angepasst an Grammatiktrainer .btn, .btn-primary, .btn-secondary */
 .btn {
-    display: inline-block; /* Grammatiktrainer-Stil */
-    padding: 0.75rem 1.5rem; /* Grammatiktrainer-Stil */
-    border: none; /* Grammatiktrainer-Stil */
-    border-radius: 5px; /* Grammatiktrainer-Stil */
-    background-color: var(--primary-blue); /* Grammatiktrainer-Stil */
-    color: white !important; /* Wichtig um Tailwind zu überschreiben */
-    font-size: 1rem; /* Grammatiktrainer-Stil */
-    font-weight: 500; /* Grammatiktrainer-Stil */
+    display: inline-block; 
+    padding: 0.75rem 1.5rem; 
+    border: none; 
+    border-radius: 5px; 
+    background-color: var(--primary-blue); 
+    color: white !important; 
+    font-size: 1rem; 
+    font-weight: 500; 
     cursor: pointer;
     text-align: center;
     text-decoration: none;
     transition: background-color 0.2s;
-    /* Tailwind-Transformationen entfernen oder anpassen falls gewünscht */
-    transform: none; /* Tailwind hover:scale-105 entfernen */
+    transform: none; 
 }
 .btn:hover:not(:disabled) {
-    background-color: #0b5ed7; /* Dunkleres Primärblau vom Grammatiktrainer */
-    transform: none; /* Kein scale mehr */
+    background-color: #0b5ed7; 
+    transform: none; 
 }
 .btn:disabled {
-    background-color: #a9c5e8 !important; /* Helleres, ausgegrautes Blau */
+    background-color: #a9c5e8 !important; 
     cursor: not-allowed !important;
     opacity: 0.7 !important;
 }
@@ -201,17 +185,16 @@ h3 { /* Allgemeiner h3 Stil vom Grammatiktrainer */
     background-color: #5c636a !important;
 }
 
-.btn-neutral { /* Vokabeltrainer spezifisch, jetzt angepasst */
-    background-color: #6c757d !important; /* Muted Text Farbe als Basis */
+.btn-neutral { 
+    background-color: #6c757d !important; 
     color: white !important;
 }
 .btn-neutral:hover:not(:disabled) {
     background-color: #5a6268 !important;
 }
 
-/* Spezifische Buttons der Vokabel-App anpassen */
-.btn-level { /* Für Levelauswahl auf Startseite */
-    padding: 1rem 1.5rem !important; /* Mehr Padding für größere Buttons */
+.btn-level { 
+    padding: 1rem 1.5rem !important; 
     font-size: 1.1rem !important;
     background-color: var(--light-blue) !important;
     color: var(--primary-blue) !important;
@@ -223,12 +206,11 @@ h3 { /* Allgemeiner h3 Stil vom Grammatiktrainer */
     border-color: var(--primary-blue) !important;
 }
 
-
 .btn-chapter-completed {
     background-color: var(--success-color) !important;
     color: white !important;
     border: 1px solid #156741 !important;
-    padding: 0.75rem 1rem !important; /* Etwas kleiner für Listen */
+    padding: 0.75rem 1rem !important; 
 }
 .btn-chapter-completed:hover:not(:disabled) {
     background-color: #147046 !important;
@@ -241,7 +223,7 @@ h3 { /* Allgemeiner h3 Stil vom Grammatiktrainer */
     padding: 0.75rem 1rem !important;
 }
 .btn-chapter-started:hover:not(:disabled) {
-    background-color: #ffe_a_b3 !important; /* Helleres Gelb */
+    background-color: #ffeab3 !important; 
 }
 
 .mark-correct-override-btn {
@@ -249,71 +231,94 @@ h3 { /* Allgemeiner h3 Stil vom Grammatiktrainer */
     color: var(--dark-text) !important;
     padding: 0.25rem 0.75rem !important;
     font-size: 0.8rem !important;
-    border: 1px solid #e_6_c_a_0_4 !important;
+    border: 1px solid #e6ca04 !important;
 }
 .mark-correct-override-btn:hover:not(:disabled) {
     background-color: #ffca2c !important;
 }
 
-/* Styles für MultipleChoice-Optionsbuttons (mc-option-button) */
 .mc-option-button {
     padding: 0.75rem 1rem;
     border: 1px solid var(--border-color);
     border-radius: 5px;
     background-color: var(--option-button-bg);
-    color: var(--dark-text) !important; /* Wichtig, um btn Textfarbe zu überschreiben */
+    color: var(--dark-text) !important; 
     font-size: 0.95rem;
     font-weight: 500;
     text-align: center;
     transition: background-color 0.2s, border-color 0.2s;
-    min-height: auto; /* Tailwind min-h entfernen/anpassen */
+    min-height: auto; 
 }
 .mc-option-button:hover:not(:disabled) {
     background-color: var(--option-button-hover-bg);
     border-color: var(--muted-text);
 }
-.mc-option-button:disabled { /* Allgemeiner disabled Stil für Optionsbuttons */
+.mc-option-button:disabled { 
     opacity: 0.7;
     cursor: default;
 }
 .mc-option-button.mc-option-button-correct,
 .mc-option-button.mc-option-button-correct:hover {
-    background-color: #d1e7dd !important; /* Helleres Grün */
+    background-color: #d1e7dd !important; 
     color: var(--success-color) !important;
     border-color: var(--success-color) !important;
 }
 .mc-option-button.mc-option-button-incorrect,
 .mc-option-button.mc-option-button-incorrect:hover {
-    background-color: #f8d7da !important; /* Helleres Rot */
+    background-color: #f8d7da !important; 
     color: var(--error-color) !important;
     border-color: var(--error-color) !important;
 }
 
-
-/* Speaker Icon - bleibt ähnlich, aber mit Variable */
-.speaker-icon-clickable-area .text-gray-500 { /* Tailwind Klasse überschreiben */
+.speaker-icon-clickable-area .text-gray-500 { 
     color: var(--primary-blue) !important;
 }
 .speaker-icon-clickable-area .text-gray-500:hover {
     color: #0b5ed7 !important;
 }
-/* SVG direkt ansprechen falls nötig */
 .speaker-icon-clickable-area svg { 
-    fill: currentColor; /* Damit es die Farbe vom Parent erbt */
+    fill: currentColor; 
 }
 
-
-/* Splash Screen - Farben an Grammatiktrainer angepasst */
+/* --- Splash Screen Styles --- */
 .splash-screen {
-    background-color: var(--header-blue); /* Farbe vom Grammatiktrainer Splash */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--header-blue);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000; 
+    opacity: 1;
+    transition: opacity 0.7s ease-out, visibility 0.7s 0s;
+    visibility: visible;
 }
-/* Das Logo SVG selbst ist inline definiert und hat eigene Füllfarben, die bleiben. */
 
+.splash-screen.hidden {
+    opacity: 0;
+    visibility: hidden;
+    transition-delay: 0s, 0.7s; 
+    pointer-events: none;
+}
+
+.splash-logo {
+    width: 250px; 
+    height: 250px; 
+    animation: fadeInLogo 1.5s ease-in-out; 
+}
+
+@keyframes fadeInLogo {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+}
 
 /* Streak Tracker Anpassung */
 #streak-tracker {
-    padding: 0.75rem 1rem; /* Etwas mehr Padding */
-    margin: 1rem 1.5rem; /* Angepasster Margin */
+    padding: 0.75rem 1rem; 
+    margin: 1rem 1.5rem; 
     border-radius: 6px;
     text-align: center;
     font-weight: 500;
@@ -328,14 +333,13 @@ h3 { /* Allgemeiner h3 Stil vom Grammatiktrainer */
     background-color: var(--streak-inactive-bg) !important;
     border: 1px solid var(--streak-inactive-border) !important;
 }
-#home-stats-container { /* Bleibt strukturell, aber erbt neue Textfarben etc. */
+#home-stats-container { 
     margin-top: 1.5rem;
     padding-top: 1.5rem;
 }
 
-/* Vokabelliste */
 .vocab-list-scroll-container {
-    background-color: var(--background-color); /* Heller Hintergrund für den Scrollbereich */
+    background-color: var(--background-color); 
     padding: 1rem;
     border-radius: 6px;
     border: 1px solid var(--border-color);
@@ -348,7 +352,6 @@ h3 { /* Allgemeiner h3 Stil vom Grammatiktrainer */
     border-bottom: none;
 }
 
-/* Feedback Texte */
 .feedback-text-correct {
     color: var(--success-color);
     font-weight: bold;
@@ -358,7 +361,6 @@ h3 { /* Allgemeiner h3 Stil vom Grammatiktrainer */
     font-weight: bold;
 }
 
-/* Kapitelmenü-Buttons (.btn-chapter-menu-item) */
 .btn-chapter-menu-item {
     padding: 0.75rem 1rem;
     border: 1px solid var(--border-color);
@@ -368,13 +370,12 @@ h3 { /* Allgemeiner h3 Stil vom Grammatiktrainer */
     transition: background-color 0.2s;
 }
 .btn-chapter-menu-item:hover {
-    background-color: #f8f9fa; /* Leichter Hover-Effekt */
+    background-color: #f8f9fa; 
 }
 .btn-cm-vocablist { background-color: var(--light-blue) !important; }
-.btn-cm-learn { background-color: #d1e7dd !important; } /* Hellgrün */
-.btn-cm-back { background-color: #f8d7da !important; } /* Hellrot */
+.btn-cm-learn { background-color: #d1e7dd !important; } 
+.btn-cm-back { background-color: #f8d7da !important; } 
 
-/* Lernmodus-Auswahl (.btn-learn-method) */
 .btn-learn-method {
     border: 1px solid var(--border-color);
     border-radius: 5px;
@@ -385,12 +386,10 @@ h3 { /* Allgemeiner h3 Stil vom Grammatiktrainer */
 .btn-learn-method:hover {
     background-color: #e9ecef;
 }
-.btn-learn-method-flashcards { background-color: #cfe2ff !important; } /* Helleres Blau */
-.btn-learn-method-mc { background-color: #f5c2c7 !important; } /* Helleres Rot */
-.btn-learn-method-manual { background-color: #bff1cf !important; } /* Helleres Grün */
+.btn-learn-method-flashcards { background-color: #cfe2ff !important; } 
+.btn-learn-method-mc { background-color: #f5c2c7 !important; } 
+.btn-learn-method-manual { background-color: #bff1cf !important; } 
 
-
-/* Buttons für Lernrichtung (FR->DE) */
 .btn-direction-base {
     padding: 0.6rem 1.2rem;
     border: 1px solid var(--border-color);
@@ -408,10 +407,8 @@ h3 { /* Allgemeiner h3 Stil vom Grammatiktrainer */
     background-color: #e9ecef !important;
 }
 
-
-/* Spezialzeichen-Buttons */
 .special-char-btn {
-    background-color: #e9ecef; /* Helleres Grau */
+    background-color: #e9ecef; 
     color: var(--dark-text);
     border: 1px solid #ced4da;
     padding: 0.4rem 0.8rem;
@@ -422,36 +419,31 @@ h3 { /* Allgemeiner h3 Stil vom Grammatiktrainer */
     background-color: #dee2e6;
 }
 
-/* Fortschrittsbalken */
 .progress-bar-bg {
     background-color: var(--progress-bar-bg);
-    border-radius: 5px; /* Runder */
+    border-radius: 5px; 
 }
 .progress-fill {
     background-color: var(--progress-bar-fill);
-    border-radius: 5px; /* Runder */
+    border-radius: 5px; 
 }
 
-/* Beispielsatz Box */
 .example-sentence-box {
-    background-color: #f8f9fa; /* Sehr heller Hintergrund */
+    background-color: #f8f9fa; 
     border: 1px solid var(--border-color);
     border-radius: 6px;
     padding: 0.75rem;
     margin-top: 0.5rem;
 }
 
-
-/* Footer */
-footer.text-center { /* Tailwind footer */
+footer.text-center { 
     color: var(--muted-text);
     border-top: 1px solid var(--border-color);
     padding: 1rem 1.5rem;
     font-size: 0.8rem;
 }
 
-/* Message Box (Pop-up) */
-#message-box-custom .bg-white { /* Tailwind bg-white im Popup */
+#message-box-custom .bg-white { 
     border: 1px solid var(--border-color);
     border-radius: 8px;
     box-shadow: 0 5px 15px rgba(0,0,0,0.2);
@@ -461,9 +453,121 @@ footer.text-center { /* Tailwind footer */
     font-size: 1.1rem;
 }
 #message-box-custom #message-ok-btn-custom {
-    /* Nutzt .btn und .btn-primary Stile von oben */
     min-width: 100px;
 }
 
-/* Fallback, falls Tailwind nicht geladen wird oder um Konflikte zu minimieren */
 .hidden { display: none !important; }
+
+/* STILE FÜR DIE FEIER-ANIMATION (VOCABTRAINER) - KORRIGIERT FÜR DURCHGEHENDEN RAND */
+.vocab-celebration-container {
+    height: 140px; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1rem; 
+    position: relative; 
+    overflow: hidden; 
+}
+
+.celebrating-logo-vocab {
+    position: relative; 
+    width: 70px;
+    height: 70px;
+    animation: celebrate-jump-vocab 1.2s ease-in-out infinite;
+    z-index: 10; 
+}
+
+@keyframes celebrate-jump-vocab {
+    0%, 100% { transform: translateY(0) rotate(0); }
+    25% { transform: translateY(-15px) rotate(-8deg); }
+    50% { transform: translateY(0) rotate(0); }
+    75% { transform: translateY(-10px) rotate(8deg); }
+}
+
+.celebrating-logo-vocab .speech-bubble-body-vocab {
+    width: 100%; 
+    height: 52px; 
+    background-color: white; 
+    border-radius: 18px; 
+    border: 3px solid var(--header-blue); /* Blaue Linie um den Körper */
+    /* Wichtig: border-bottom wird speziell behandelt, um den Schwanz zu integrieren */
+    border-bottom: none; /* Der untere Rand wird durch den Schwanz und sein ::before Element simuliert */
+    position: relative; 
+    z-index: 2; 
+}
+
+.celebrating-logo-vocab .speech-bubble-tail-vocab {
+    position: absolute;
+    bottom: -1px; /* Position anpassen, damit es direkt unter dem body sitzt */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 20px; /* Breite des Dreiecks an der Basis */
+    height: 15px; /* Höhe des Dreiecks */
+    z-index: 1; /* Hinter dem body, aber über dem Konfetti */
+}
+
+/* Blauer Rand für den Schwanz */
+.celebrating-logo-vocab .speech-bubble-tail-vocab::before {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 15px solid var(--header-blue); /* Blau für den äußeren Rand */
+    bottom: 0px; /* Beginnt am unteren Rand des Elternelements */
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* Weißer Füll-Schwanz, der über dem blauen Rand liegt */
+.celebrating-logo-vocab .speech-bubble-tail-vocab::after {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-left: 7px solid transparent; /* 3px kleiner als der blaue Rand (10px - 3px) */
+    border-right: 7px solid transparent; /* 3px kleiner als der blaue Rand (10px - 3px) */
+    border-top: 12px solid white;      /* 3px kleiner als der blaue Rand (15px - 3px) */
+    bottom: 3px; /* Um den 3px Rand unten freizulegen */
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+
+.celebrating-logo-vocab .flag-icon-vocab {
+    position: absolute;
+    top: 50%; 
+    left: 50%; 
+    transform: translate(-50%, -50%); 
+    width: 46px;  
+    height: 28px; 
+    display: flex;
+    border: 1px solid #cccccc; 
+    border-radius: 2px; 
+    overflow: hidden; 
+    z-index: 4; /* Sicherstellen, dass die Flagge immer oben ist */
+}
+
+.celebrating-logo-vocab .flag-blue-vocab { background-color: #0055A4; flex: 1; }
+.celebrating-logo-vocab .flag-white-vocab { background-color: #FFFFFF; flex: 1; }
+.celebrating-logo-vocab .flag-red-vocab { background-color: #EF4135; flex: 1; }
+
+.confetti-vocab {
+    position: absolute;
+    width: 6px; 
+    height: 10px; 
+    opacity: 0; 
+    animation: confetti-fall-vocab ease-out forwards; 
+}
+
+@keyframes confetti-fall-vocab {
+    0% {
+        transform: translateY(-20px) rotateZ(0deg); 
+        opacity: 1; 
+    }
+    100% {
+        transform: translateY(140px) rotateZ(720deg); 
+        opacity: 0; 
+    }
+}

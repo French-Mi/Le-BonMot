@@ -117,7 +117,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!voice) { voice = frenchVoices.find(v => v.lang === 'fr-FR' && v.default) || frenchVoices.find(v => v.lang === 'fr-FR') || frenchVoices[0];}
             if (voice) {
                 utterance.voice = voice;
-                console.log("Verwendete Stimme:", voice.name, "| Sprache:", voice.lang, "| Standard:", voice.default); // Korrigiert: v.default zu voice.default
+                // console.log("Verwendete Stimme:", voice.name, "| Sprache:", voice.lang, "| Standard:", voice.default); // Weniger Logging für Sprachausgabe
             } else {
                 console.warn("Konnte keine spezifische französische Stimme zuweisen. Browser-Standard für 'fr-FR' wird verwendet (falls vorhanden).");
             }
@@ -129,8 +129,8 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        utterance.onstart = () => { console.log("Sprachausgabe gestartet für:", cleanedText); };
-        utterance.onend = () => { console.log("Sprachausgabe beendet für:", cleanedText); };
+        utterance.onstart = () => { /* console.log("Sprachausgabe gestartet für:", cleanedText); */ }; // Weniger Logging
+        utterance.onend = () => { /* console.log("Sprachausgabe beendet für:", cleanedText); */ }; // Weniger Logging
         utterance.onerror = (e) => {
             console.error("Fehler bei der Sprachsynthese:", e.error, "| Für Text:", cleanedText, "| Utterance-Objekt:", utterance);
             let errorMsg = `Fehler bei Sprachausgabe: ${e.error}.`;
@@ -182,7 +182,7 @@ document.addEventListener('DOMContentLoaded', () => {
             saveProgress();
             saveIncorrectWordsHistory();
         }
-        updateStreak(); // updateStreak() ruft renderStreak(), das gibt es aber nicht. Es muss saveProgress() sein. Nein, renderStreak() ist in completeLearningSession und updateStreak enthalten.
+        updateStreak();
     }
 
     function saveProgress() { try { localStorage.setItem('leBonMotProgress', JSON.stringify(learningProgress)); } catch (e) { console.error("Error saving progress:", e); } }
@@ -190,29 +190,22 @@ document.addEventListener('DOMContentLoaded', () => {
     function logIncorrectWord(wordObject) { if (!wordObject || !wordObject.french) return; const newErrorEntry = { ...wordObject, timestamp: new Date().toISOString() }; incorrectWordsHistory.push(newErrorEntry); saveIncorrectWordsHistory(); }
     
     function updateStreak() {
-        // Diese Funktion wird in loadProgress aufgerufen, aber wordsLearnedInQuiz ist hier nicht definiert.
-        // Der Streak-Update-Teil sollte nur nach einer Lernsitzung erfolgen.
-        // Der Teil, der den Streak basierend auf dem Datum aktualisiert, ist in Ordnung.
         try {
             const today = (new Date()).toDateString();
             const lastLearned = learningProgress.streak.lastLearnedDate;
 
-            if (learningProgress.streak.lastLearnedDate) { // Nur aktualisieren, wenn schon mal gelernt wurde
+            if (learningProgress.streak.lastLearnedDate) { 
                 const diffDays = ((new Date(today)) - (new Date(lastLearned))) / (1000 * 60 * 60 * 24);
-                if (diffDays > 1) { // Wenn mehr als 1 Tag vergangen ist
-                    learningProgress.streak.current = 0; // Streak zurücksetzen
+                if (diffDays > 1) { 
+                    learningProgress.streak.current = 0; 
                 }
-                // Wenn diffDays === 1, wird der Streak in completeLearningSession erhöht
-                // Wenn diffDays === 0, bleibt der Streak für heute gleich
             }
-            // lastLearnedDate wird in completeLearningSession aktualisiert
             saveProgress();
-            renderStreak(); // Stellt sicher, dass der Streak-Div aktualisiert wird
+            renderStreak(); 
         } catch (e) {
             console.error("Error updating streak on load:", e);
         }
     }
-
 
     function markChapterAsStarted() {
         try {
@@ -270,11 +263,11 @@ document.addEventListener('DOMContentLoaded', () => {
             const lastLearned = learningProgress.streak.lastLearnedDate;
 
             if (lastLearned === today) {
-                // Bereits heute gelernt, Streak nicht erneut erhöhen, nur Datum bleibt
+                // Already learned today
             } else if (lastLearned && ((new Date(today)) - (new Date(lastLearned))) / (1000 * 60 * 60 * 24) === 1) {
-                learningProgress.streak.current += 1; // Gestern gelernt, Streak erhöhen
+                learningProgress.streak.current += 1; 
             } else {
-                learningProgress.streak.current = 1; // Länger als einen Tag nicht gelernt oder erster Lerntag
+                learningProgress.streak.current = 1; 
             }
             learningProgress.streak.lastLearnedDate = today;
 
@@ -290,7 +283,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-
     // =================================================================================
     // RENDER-FUNKTIONEN
     // =================================================================================
@@ -299,24 +291,22 @@ document.addEventListener('DOMContentLoaded', () => {
         const currentStreak = learningProgress.streak.current || 0;
         if (currentStreak > 0) {
             streakTrackerDiv.innerHTML = `🔥 Aktueller Streak: <strong>${currentStreak} ${currentStreak === 1 ? 'Tag' : 'Tage'}</strong>!`;
-            streakTrackerDiv.className = 'streak-active'; // Tailwind-Klassen direkt hier
+            streakTrackerDiv.className = 'streak-active'; 
         } else {
             streakTrackerDiv.innerHTML = `Starte heute eine neue Lernserie!`;
-            streakTrackerDiv.className = 'streak-inactive'; // Tailwind-Klassen direkt hier
+            streakTrackerDiv.className = 'streak-inactive'; 
         }
-        // Sichtbarkeit wird in renderApp() gesteuert
     }
 
     function renderApp() {
         if (!appDiv) { console.error("Fatal Error: appDiv not found!"); document.body.innerHTML = "App-Container nicht gefunden. Laden abgebrochen."; return; }
         try {
             appDiv.innerHTML = '';
-            appDiv.className = 'main-app-content view-animation'; // Stellt sicher, dass die Animation angewendet wird
+            appDiv.className = 'main-app-content view-animation'; 
             
-            // Streak-Anzeige Logik
             if (streakTrackerDiv) {
                  if (currentView === 'home' || currentView === 'levelChapterSelection' || currentView === 'subChapterSelection' || currentView === 'chapterMenu' || currentView === 'learnOptions') {
-                    renderStreak(); // Aktualisiert Inhalt und Klasse
+                    renderStreak(); 
                     streakTrackerDiv.style.display = 'block';
                 } else {
                     streakTrackerDiv.style.display = 'none';
@@ -392,25 +382,24 @@ document.addEventListener('DOMContentLoaded', () => {
                         const isMainChapter = !Array.isArray(vocabDataGlobal[selectedLevel][chapter]);
                         const subChapters = isMainChapter ? Object.keys(vocabDataGlobal[selectedLevel][chapter]) : [];
                         const completedCount = isMainChapter ? subChapters.filter(sc => isChapterCompleted(selectedLevel, sc, chapter)).length : 0;
-                        const startedCount = isMainChapter ? subChapters.filter(sc => isChapterStarted(selectedLevel, sc, chapter)).length : 0; // Zählt nur gestartete, nicht abgeschlossene
-                        const totalSubChapters = isMainChapter ? subChapters.length : 0; // Nur relevant für Hauptkapitel
+                        const startedCount = isMainChapter ? subChapters.filter(sc => isChapterStarted(selectedLevel, sc, chapter)).length : 0; 
+                        const totalSubChapters = isMainChapter ? subChapters.length : 0; 
 
-                        let buttonClass = 'bg-white hover:bg-gray-100'; // Standard
+                        let buttonClass = 'bg-white hover:bg-gray-100'; 
                         let progressText = '';
                         let checkMark = '';
 
-                        if (isMainChapter) { // Es ist ein Hauptkapitel mit Unterkapiteln
+                        if (isMainChapter) { 
                             if (totalSubChapters > 0) {
                                 progressText = ` (${completedCount}/${totalSubChapters})`;
-                                if (completedCount === totalSubChapters) { // Alle Unterkapitel abgeschlossen
+                                if (completedCount === totalSubChapters) { 
                                     buttonClass = 'btn-chapter-completed';
                                     checkMark = ' ✓';
-                                } else if (completedCount > 0 || startedCount > 0) { // Einige abgeschlossen oder einige nur gestartet
+                                } else if (completedCount > 0 || startedCount > 0) { 
                                     buttonClass = 'btn-chapter-started';
                                 }
                             }
-                            // Wenn totalSubChapters === 0, bleibt es Standard (unwahrscheinlich für Hauptkapitel)
-                        } else { // Es ist ein direktes Kapitel (kein Hauptkapitel)
+                        } else { 
                             if (isChapterCompleted(selectedLevel, chapter)) {
                                 buttonClass = 'btn-chapter-completed';
                                 checkMark = ' ✓';
@@ -478,12 +467,35 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('startLearningBtn').onclick = () => { currentView = 'learnOptions'; renderApp(); }; 
         document.getElementById('backToChapterSelectionBtn').onclick = () => { 
             currentView = selectedMainChapter ? 'subChapterSelection' : 'levelChapterSelection'; 
-            if (!selectedMainChapter) selectedChapter = null; // Reset sub-chapter if going to main chapters
+            if (!selectedMainChapter) selectedChapter = null; 
             renderApp(); 
         }; 
     }
 
-    function renderExampleSentence(vocabItem, containerId) { const container = document.getElementById(containerId); if (!container) return; if (vocabItem.exampleFrench && vocabItem.exampleGerman) { container.innerHTML = ` <div class="example-sentence-box"> <p class="mb-1"><strong>FR:</strong> ${vocabItem.exampleFrench} <span class="speaker-icon-clickable-area" data-text="${vocabItem.exampleFrench}"> ${speakerIconSvgContent} </span> </p> <p><strong>DE:</strong> ${vocabItem.exampleGerman}</p> </div>`; container.querySelector('.speaker-icon-clickable-area').onclick = (e) => speakFrench(e.currentTarget.dataset.text, e); container.classList.remove('hidden'); } else { container.innerHTML = `<p class="text-gray-500 italic">Kein Beispielsatz verfügbar.</p>`; container.classList.remove('hidden'); } }
+    function renderExampleSentence(vocabItem, containerId) {
+        const container = document.getElementById(containerId);
+        if (!container) {
+            console.error("renderExampleSentence: Container nicht gefunden für ID:", containerId);
+            return;
+        }
+        console.log("renderExampleSentence: Aufruf mit vocabItem:", vocabItem); 
+        console.log("renderExampleSentence: vocabItem.exampleFrench:", vocabItem ? vocabItem.exampleFrench : 'vocabItem ist null/undefined');
+        console.log("renderExampleSentence: vocabItem.exampleGerman:", vocabItem ? vocabItem.exampleGerman : 'vocabItem ist null/undefined');
+
+        if (vocabItem && typeof vocabItem === 'object' && vocabItem.exampleFrench && vocabItem.exampleGerman) {
+            console.log("renderExampleSentence: Zeige Beispielsatz.");
+            container.innerHTML = ` <div class="example-sentence-box"> <p class="mb-1"><strong>FR:</strong> ${vocabItem.exampleFrench} <span class="speaker-icon-clickable-area" data-text="${vocabItem.exampleFrench}"> ${speakerIconSvgContent} </span> </p> <p><strong>DE:</strong> ${vocabItem.exampleGerman}</p> </div>`;
+            const speakerIcon = container.querySelector('.speaker-icon-clickable-area');
+            if(speakerIcon) { 
+                speakerIcon.onclick = (e) => speakFrench(e.currentTarget.dataset.text, e);
+            }
+            container.classList.remove('hidden');
+        } else {
+            console.warn("renderExampleSentence: Bedingung für Anzeige nicht erfüllt. vocabItem:", vocabItem, "exampleFrench vorhanden?", !!vocabItem?.exampleFrench, "exampleGerman vorhanden?", !!vocabItem?.exampleGerman);
+            container.innerHTML = `<p class="text-gray-500 italic">Kein vollständiger Beispielsatz verfügbar.</p>`;
+            container.classList.remove('hidden');
+        }
+    }
     
     function renderVocabListScreen() { 
         const vocabList = selectedMainChapter ? vocabDataGlobal[selectedLevel][selectedMainChapter][selectedChapter] : vocabDataGlobal[selectedLevel][selectedChapter]; 
@@ -500,7 +512,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                         <p class="font-semibold text-gray-800">${v.french} <span class="speaker-icon-clickable-area" data-text="${v.french}"> ${speakerIconSvgContent} </span> </p> 
                                         <p class="text-gray-600">${v.german}</p> 
                                     </div> 
-                                    ${ (selectedLevel === 'A1' || selectedLevel === 'A2' || selectedLevel === 'Wiederholung' || (vocabDataGlobal[selectedLevel][selectedMainChapter]?.[selectedChapter]?.[index]?.exampleFrench) || (vocabDataGlobal[selectedLevel][selectedChapter]?.[index]?.exampleFrench) ) && v.exampleFrench ? ` 
+                                    ${ ((selectedLevel === 'A1' || selectedLevel === 'A2' || selectedLevel === 'Wiederholung') && v.exampleFrench && v.exampleGerman) ? ` 
                                         <button class="btn-secondary py-1 px-2 text-xs rounded" data-vocab-index="${index}" onclick="toggleExample(this, 'vocab-${index}-example')">Beispiel</button> 
                                     ` : ''} 
                                 </div> 
@@ -514,25 +526,70 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('backToMenuBtnList').onclick = () => { currentView = 'chapterMenu'; renderApp(); }; 
     }
 
-    window.toggleExample = function(button, containerId) { 
-        const exampleContainer = document.getElementById(containerId); 
-        const vocabIndex = parseInt(button.dataset.vocabIndex, 10); 
-        
-        let vocabItem;
-        if (currentView === 'vocabList' && vocabIndex !== undefined) {
-            const currentVocabList = selectedMainChapter ? vocabDataGlobal[selectedLevel][selectedMainChapter][selectedChapter] : vocabDataGlobal[selectedLevel][selectedChapter];
-            vocabItem = currentVocabList[vocabIndex];
-        } else if (quizWords && currentQuestionIndex < quizWords.length) { // In Quiz-Ansichten
-            vocabItem = quizWords[currentQuestionIndex];
+    window.toggleExample = function(button, containerId) {
+        console.log("------------------------------------");
+        console.log("toggleExample AUFGERUFEN. Button Klick für Container:", containerId);
+        const exampleContainer = document.getElementById(containerId);
+        if (!exampleContainer) {
+            console.error("toggleExample FEHLER: exampleContainer NICHT GEFUNDEN für ID:", containerId);
+            return;
         }
 
-        if (!vocabItem) return; 
+        const vocabIndexAttribute = button.dataset.vocabIndex;
+        const vocabIndex = vocabIndexAttribute !== undefined ? parseInt(vocabIndexAttribute, 10) : undefined;
+        console.log("toggleExample: vocabIndexAttribut vom Button:", vocabIndexAttribute, "Geparster vocabIndex:", vocabIndex);
         
-        if (exampleContainer.classList.contains('hidden')) { 
-            renderExampleSentence(vocabItem, containerId); button.textContent = 'Verbergen'; 
-        } else { 
-            exampleContainer.classList.add('hidden'); exampleContainer.innerHTML = ''; button.textContent = 'Beispiel'; 
-        } 
+        let vocabItem;
+
+        if (currentView === 'vocabList') {
+            console.log("toggleExample: Aktuelle Ansicht ist 'vocabList'.");
+            if (vocabIndex !== undefined && !isNaN(vocabIndex)) {
+                const currentVocabList = selectedMainChapter 
+                    ? vocabDataGlobal[selectedLevel]?.[selectedMainChapter]?.[selectedChapter] 
+                    : vocabDataGlobal[selectedLevel]?.[selectedChapter];
+                
+                if (currentVocabList && vocabIndex >= 0 && vocabIndex < currentVocabList.length) {
+                    vocabItem = currentVocabList[vocabIndex];
+                    console.log("toggleExample (vocabList): vocabItem ERFOLGREICH GEHOLT:", vocabItem);
+                } else {
+                    console.error("toggleExample (vocabList) FEHLER: currentVocabList ist undefined oder vocabIndex außerhalb des Bereichs.", "currentVocabList:", currentVocabList, "vocabIndex:", vocabIndex);
+                }
+            } else {
+                console.error("toggleExample (vocabList) FEHLER: vocabIndex ist undefined oder NaN aus button.dataset.", vocabIndexAttribute);
+            }
+        } else if (quizWords && quizWords.length > 0 && currentQuestionIndex >= 0 && currentQuestionIndex < quizWords.length) {
+            console.log("toggleExample: Aktuelle Ansicht ist ein Quiz. currentQuestionIndex:", currentQuestionIndex);
+            vocabItem = quizWords[currentQuestionIndex];
+            console.log("toggleExample (Quiz): vocabItem ERFOLGREICH GEHOLT:", vocabItem);
+        } else {
+             console.warn("toggleExample: Weder vocabList noch Quiz-Ansicht, oder Daten nicht verfügbar. quizWords:", quizWords, "currentQuestionIndex:", currentQuestionIndex);
+        }
+        
+        if (!vocabItem || typeof vocabItem !== 'object') {
+            console.error("toggleExample FEHLER: vocabItem ist ungültig oder kein Objekt.", "vocabItem:", vocabItem, "currentView:", currentView);
+            exampleContainer.innerHTML = "<p class='text-red-500 italic'>Fehler: Vokabeldaten konnten nicht geladen werden.</p>";
+            exampleContainer.classList.remove('hidden');
+            if (button) button.textContent = 'Beispiel'; // Reset button text
+            return;
+        }
+        
+        console.log("toggleExample: FINALES vocabItem vor Render-Entscheidung:", vocabItem);
+        console.log("toggleExample: vocabItem.exampleFrench:", vocabItem.exampleFrench);
+        console.log("toggleExample: vocabItem.exampleGerman:", vocabItem.exampleGerman);
+
+        if (exampleContainer.classList.contains('hidden')) {
+            console.log("toggleExample: Container war versteckt. Rufe renderExampleSentence auf.");
+            renderExampleSentence(vocabItem, containerId); // renderExampleSentence macht den Container sichtbar
+            // Der Text des Buttons wird basierend darauf gesetzt, ob ein Satz gerendert wurde ODER die "nicht verfügbar" Nachricht.
+            // Wenn der Container jetzt sichtbar ist, sollte der Button "Verbergen" anzeigen.
+            button.textContent = 'Verbergen';
+        } else {
+            console.log("toggleExample: Container war sichtbar. Verstecke ihn.");
+            exampleContainer.classList.add('hidden');
+            exampleContainer.innerHTML = '';
+            button.textContent = 'Beispiel';
+        }
+        console.log("------------------------------------");
     }
 
     function renderLearnOptionsScreen() { 
@@ -592,43 +649,40 @@ document.addEventListener('DOMContentLoaded', () => {
              showMessage(`Du hast viele Fehler zu wiederholen. Wir starten mit den ersten 20.`);
         }
 
-        // Temporäres Level und Kapitel für die Wiederholung
         const tempLevel = 'Wiederholung';
         const tempChapter = `Fehler der letzten ${days} Tage`;
 
-        // Sicherstellen, dass die Struktur für die Wiederholung existiert
         if (!vocabDataGlobal[tempLevel]) {
             vocabDataGlobal[tempLevel] = {};
         }
-        vocabDataGlobal[tempLevel][tempChapter] = reviewBatch; // Vokabeln für die Wiederholung hier speichern
+        vocabDataGlobal[tempLevel][tempChapter] = reviewBatch; 
 
-        // Globale Variablen für das Quiz setzen
         selectedLevel = tempLevel; 
-        selectedMainChapter = null; // Keine Hauptkapitel-Struktur für globale Wiederholung
+        selectedMainChapter = null; 
         selectedChapter = tempChapter; 
         
-        startQuiz('manualInput', reviewBatch, true); // Dritter Parameter true für isGlobalReview
+        startQuiz('manualInput', reviewBatch, true); 
     }
     
     function startQuiz(quizType, wordsForQuizOverride = null, isGlobalReviewFlag = false) {
-        let levelForQuiz = selectedLevel; //selectedLevel wurde ggf. in startGlobalReview gesetzt
-        let chapterForQuiz = selectedChapter; //selectedChapter wurde ggf. in startGlobalReview gesetzt
-        let mainChapterForQuiz = selectedMainChapter; //selectedMainChapter wurde ggf. in startGlobalReview gesetzt
+        let levelForQuiz = selectedLevel; 
+        let chapterForQuiz = selectedChapter; 
+        let mainChapterForQuiz = selectedMainChapter; 
 
         if (isGlobalReviewFlag) {
-            mainChapterForQuiz = null; // Globale Wiederholung hat keine Hauptkapitel-Struktur
+            mainChapterForQuiz = null; 
         }
 
         try {
             currentQuizType = quizType;
-            isReviewRound = !!wordsForQuizOverride && !isGlobalReviewFlag; // Nur eine "normale" Fehlerrunde, keine globale
-            const isActuallyGlobalReview = isGlobalReviewFlag; // Um Missverständnisse zu vermeiden
+            isReviewRound = !!wordsForQuizOverride && !isGlobalReviewFlag; 
+            const isActuallyGlobalReview = isGlobalReviewFlag; 
 
-            if (!isActuallyGlobalReview && !isReviewRound) { // Nur bei normalen Lernrunden (keine Fehlerrunden, keine globale Wiederholung)
+            if (!isActuallyGlobalReview && !isReviewRound) { 
                 markChapterAsStarted();
             }
 
-            if (wordsForQuizOverride) { // Entweder Fehlerrunde oder globale Wiederholung
+            if (wordsForQuizOverride) { 
                 if (wordsForQuizOverride.length === 0) {
                     showMessage("Keine Wörter für diese Runde übrig. Gut gemacht!");
                     currentView = isActuallyGlobalReview ? 'home' : 'learnOptions';
@@ -636,7 +690,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     return;
                 }
                 quizWords = shuffleArray([...wordsForQuizOverride]);
-            } else { // Normale Lernrunde aus Kapitel
+            } else { 
                 chapterVocab = mainChapterForQuiz 
                     ? vocabDataGlobal[levelForQuiz]?.[mainChapterForQuiz]?.[chapterForQuiz] 
                     : vocabDataGlobal[levelForQuiz]?.[chapterForQuiz];
@@ -666,7 +720,7 @@ document.addEventListener('DOMContentLoaded', () => {
             noIdeaCount = 0;
             roundCorrectCount = 0;
             roundIncorrectCount = 0;
-            incorrectlyAnsweredWordsGlobal = []; // Für die aktuelle Runde
+            incorrectlyAnsweredWordsGlobal = []; 
             isCardFlipped = false;
             currentView = quizType;
             renderApp();
@@ -713,7 +767,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             ${answerText} 
                             ${answerLangIsFrench ? `<span class="speaker-icon-clickable-area" data-text="${answerText}">${speakerIconSvgContent}</span>` : ''} 
                         </p> 
-                        ${ (selectedLevel === 'A1' || selectedLevel === 'A2' || isGlobalReviewContext) && currentWord.exampleFrench ? ` 
+                        ${ ((selectedLevel === 'A1' || selectedLevel === 'A2' || isGlobalReviewContext) && currentWord.exampleFrench && currentWord.exampleGerman) ? ` 
                             <button class="btn-secondary py-1 px-2 text-xs rounded mt-3" onclick="toggleExample(this, 'flashcard-example')">Beispiel</button> 
                             <div id="flashcard-example" class="hidden mt-2 text-sm text-left w-full"></div> 
                         ` : ''} 
@@ -748,13 +802,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const questionLangIsFrench = currentQuizDirection === 'frToDe'; 
         const isGlobalReviewContext = selectedLevel === 'Wiederholung';
 
-        let vocabSourceForDistractors = chapterVocab; // Default: Vocab des aktuellen Kapitels
+        let vocabSourceForDistractors = chapterVocab; 
         if (isGlobalReviewContext && vocabDataGlobal[selectedLevel] && vocabDataGlobal[selectedLevel][selectedChapter]) {
-             vocabSourceForDistractors = vocabDataGlobal[selectedLevel][selectedChapter]; // Vokabeln der globalen Wiederholungsrunde
-        } else if (isReviewRound && incorrectlyAnsweredWordsGlobal.length > 3) { // Für Fehlerrunden, wenn genug Fehler da sind
+             vocabSourceForDistractors = vocabDataGlobal[selectedLevel][selectedChapter]; 
+        } else if (isReviewRound && incorrectlyAnsweredWordsGlobal.length > 3) { 
             vocabSourceForDistractors = incorrectlyAnsweredWordsGlobal;
         }
-
 
         let potentialDistractors = [];
         if (vocabSourceForDistractors && vocabSourceForDistractors.length > 0) {
@@ -765,16 +818,15 @@ document.addEventListener('DOMContentLoaded', () => {
         
         const distractors = shuffleArray([...new Set(potentialDistractors.filter(d => normalizeAnswerGeneral(d) !== normalizeAnswerGeneral(answerText)))]).slice(0, 3); 
         let options = shuffleArray([answerText, ...distractors]); 
-        if (options.length === 0 || (options.length < 4 && options.length < vocabSourceForDistractors.length)) { // Fülle auf, wenn nicht genug Optionen
-            let fallbackOptions = vocabDataGlobal.Grundlagen['Begrüßung und Verabschiedung'] // Fallback auf eine bekannte Liste
+        if (options.length === 0 || (options.length < 4 && vocabSourceForDistractors && options.length < vocabSourceForDistractors.length)) { 
+            let fallbackOptions = vocabDataGlobal.Grundlagen['Begrüßung und Verabschiedung'] 
                                 .map(v => currentQuizDirection === 'frToDe' ? v.german : v.french)
                                 .filter(d => normalizeAnswerGeneral(d) !== normalizeAnswerGeneral(answerText) && !options.includes(d));
             options.push(...shuffleArray(fallbackOptions).slice(0, 4 - options.length));
-            options = shuffleArray([...new Set(options)]); // Duplikate entfernen und mischen
+            options = shuffleArray([...new Set(options)]); 
         }
-        if (options.length === 1 && !options.includes(answerText)) options.push(answerText); // Sicherstellen, dass die richtige Antwort dabei ist
-        if (options.length === 0) options.push(answerText); // Fallback, falls alles fehlschlägt
-
+        if (options.length === 1 && !options.includes(answerText)) options.push(answerText); 
+        if (options.length === 0) options.push(answerText); 
 
         appDiv.innerHTML = `
             <div class="card-content w-full max-w-lg mx-auto flex-grow flex flex-col justify-between"> 
@@ -792,7 +844,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div id="optionsContainer" class="grid grid-cols-1 sm:grid-cols-2 gap-3">${options.map(option => `<button class="mc-option-button option-btn">${option}</button>`).join('')}</div> 
                     <div id="feedbackArea" class="mt-4 text-center min-h-[40px]"> 
                         <p id="feedbackMC" class="h-6"></p> 
-                        ${ (selectedLevel === 'A1' || selectedLevel === 'A2' || isGlobalReviewContext) && currentWord.exampleFrench ? ` 
+                        ${ ((selectedLevel === 'A1' || selectedLevel === 'A2' || isGlobalReviewContext) && currentWord.exampleFrench && currentWord.exampleGerman) ? ` 
                             <button id="mc-example-btn" class="btn-secondary py-1 px-2 text-xs rounded mt-1 hidden" onclick="toggleExample(this, 'mc-example')">Beispiel</button> 
                             <div id="mc-example" class="hidden mt-2 text-sm text-left"></div> 
                         ` : ''} 
@@ -868,7 +920,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div id="feedbackAreaManual" class="mt-4 text-center min-h-[40px]"> 
                         <p id="feedbackFill" class="h-6"></p> 
                         <button id="markCorrectBtnManual" class="mark-correct-override-btn hidden">Als richtig markieren</button> 
-                        ${ (selectedLevel === 'A1' || selectedLevel === 'A2' || isGlobalReviewContext) && currentWord.exampleFrench ? ` 
+                        ${ ((selectedLevel === 'A1' || selectedLevel === 'A2' || isGlobalReviewContext) && currentWord.exampleFrench && currentWord.exampleGerman) ? ` 
                             <button id="manual-example-btn" class="btn-secondary py-1 px-2 text-xs rounded mt-1 hidden" onclick="toggleExample(this, 'manual-example')">Beispiel</button> 
                             <div id="manual-example" class="hidden mt-2 text-sm text-left"></div> 
                         ` : ''} 
@@ -943,11 +995,37 @@ document.addEventListener('DOMContentLoaded', () => {
         nextBtn.onclick = () => { currentQuestionIndex++; renderManualInputScreen(); }; 
         document.getElementById('quitQuizBtnManual').onclick = () => { currentView = 'home'; selectedLevel = null; selectedChapter = null; selectedMainChapter = null; renderApp(); }; 
     }
+
+    function createVocabCelebrationAnimationHTML() {
+        let confettiHtml = '';
+        const colors = ['#ffc107', '#4A90E2', '#EF4135', '#FFFFFF', '#a855f7', '#22c55e']; 
+        for (let i = 0; i < 50; i++) { 
+            const color = colors[i % colors.length];
+            const left = Math.random() * 100;
+            const animDuration = 1.0 + Math.random() * 0.8; 
+            const delay = Math.random() * 0.6; 
+            const rotationStart = Math.random() * 360;
+            confettiHtml += `<div class="confetti-vocab" style="left: ${left}%; background-color: ${color}; animation-duration: ${animDuration}s; animation-delay: ${delay}s; transform: rotateZ(${rotationStart}deg) translateY(-20px);"></div>`;
+        }
+        const logoHtml = `
+            <div class="celebrating-logo-vocab">
+                <div class="speech-bubble-body-vocab">
+                    <div class="flag-icon-vocab">
+                        <div class="flag-blue-vocab"></div>
+                        <div class="flag-white-vocab"></div>
+                        <div class="flag-red-vocab"></div>
+                    </div>
+                </div>
+                <div class="speech-bubble-tail-vocab"></div>
+            </div>`;
+        return `<div class="vocab-celebration-container">${logoHtml}${confettiHtml}</div>`;
+    }
     
     function renderQuizEndScreen() {
         let reviewOptionsHtml = '';
-        const isGlobalReviewContext = selectedLevel === 'Wiederholung'; // True, wenn es eine globale Wiederholungsrunde war
+        const isGlobalReviewContext = selectedLevel === 'Wiederholung'; 
         const wordsForNextReview = [...new Set(incorrectlyAnsweredWordsGlobal)];
+        let celebrationAnimationHtml = ''; 
 
         if (wordsForNextReview.length > 0) {
             reviewOptionsHtml = `
@@ -958,7 +1036,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const allCorrectInThisRound = (currentQuizType === 'flashcards' && sureCount === initialQuizWordCount && sureCount > 0 && unsureCount === 0 && noIdeaCount === 0) ||
                                      ((currentQuizType === 'multipleChoice' || currentQuizType === 'manualInput') && roundCorrectCount === initialQuizWordCount && roundCorrectCount > 0 && roundIncorrectCount === 0);
 
-        // Nur für reguläre Kapitelrunden (nicht Fehlerrunden, nicht globale Wiederholungen)
         const isMainLearningRound = !isReviewRound && !isGlobalReviewContext;
 
         if (isMainLearningRound) {
@@ -970,7 +1047,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         if (isMainLearningRound && allCorrectInThisRound) {
             markChapterAsCompleted();
-            // saveProgress() wird in markChapterAsCompleted aufgerufen
+            celebrationAnimationHtml = createVocabCelebrationAnimationHTML(); 
         }
 
         let scoreDisplay = `${currentQuizType === 'flashcards' ? sureCount : roundCorrectCount} / ${initialQuizWordCount}`;
@@ -978,24 +1055,23 @@ document.addEventListener('DOMContentLoaded', () => {
         if (isGlobalReviewContext) endScreenTitle = "Wiederholung beendet!";
         else if (isReviewRound) endScreenTitle = "Fehlerrunde beendet!";
 
-
         let navigationButtonsHtml = '';
-        if (isGlobalReviewContext) { // Wenn es eine globale Wiederholung war (von Startseite)
+        if (isGlobalReviewContext) { 
             navigationButtonsHtml = `
                 <button id="backToHomeFromQuizBtn" class="btn btn-secondary w-full">Zurück zur Startseite</button>
             `;
-        } else { // Normale Runde oder Fehlerrunde innerhalb eines Kapitels
+        } else { 
             navigationButtonsHtml = `
-                ${!isReviewRound ? `<button id="restartQuizBtn" class="btn btn-primary w-full">Gleiche Runde nochmal</button>` : ''}
-                <button id="backToLearnOptionsBtn" class="btn btn-secondary w-full">Lernmodus für dieses Kapitel</button>
-                <button id="backToChapterSelectionBtn" class="btn btn-secondary w-full">Zurück zur Kapitelauswahl</button>
+                <button id="restartOriginalLessonBtn" class="btn btn-primary w-full">Komplette Lektion wiederholen</button>
+                <button id="backToLearnOptionsBtn" class="btn btn-secondary w-full">Zurück zum Lernmodus</button>
+                <button id="backToChapterSelectionBtn" class="btn btn-secondary w-full">Zurück zur Kapitelwahl</button>
                 <button id="backToHomeFromQuizBtn" class="btn btn-neutral w-full">Zurück zur Startseite</button>
             `;
         }
 
-
         appDiv.innerHTML = `
             <div class="card-content w-full max-w-md mx-auto text-center flex-grow flex flex-col justify-center items-center">
+                ${celebrationAnimationHtml} 
                 <h2 class="text-2xl font-semibold mb-4 text-slate-700">${endScreenTitle}</h2>
                 ${isMainLearningRound && allCorrectInThisRound ? '<p class="text-lg font-semibold text-green-600 mb-4">Perfekt! Kapitel abgeschlossen!</p>' : ''}
                 ${(isReviewRound || isGlobalReviewContext) && allCorrectInThisRound ? '<p class="text-lg font-semibold text-green-600 mb-4">Alle Fehler korrigiert! Sehr gut!</p>' : ''}
@@ -1018,22 +1094,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (document.getElementById('startReviewBtn')) {
             document.getElementById('startReviewBtn').onclick = () => {
-                // Bei Klick auf "Fehler nochmal üben"
-                // selectedLevel, selectedChapter, selectedMainChapter bleiben wie sie sind (oder wurden von startGlobalReview gesetzt)
-                // Es wird eine neue Fehlerrunde für DIESE GERADE GEMACHTEN FEHLER gestartet
-                startQuiz(currentQuizType, wordsForNextReview, isGlobalReviewContext); // isGlobalReviewContext als Flag übergeben
+                startQuiz(currentQuizType, wordsForNextReview, isGlobalReviewContext); 
             };
         }
-        if (document.getElementById('restartQuizBtn')) { // Nur für normale Runden
-            document.getElementById('restartQuizBtn').onclick = () => startQuiz(currentQuizType, null, false); // null für Vokabeln (werden neu geholt), false für nicht globale Wiederholung
+        
+        const restartOriginalLessonBtn = document.getElementById('restartOriginalLessonBtn');
+        if (restartOriginalLessonBtn) { 
+            restartOriginalLessonBtn.onclick = () => {
+                startQuiz(currentQuizType, null, false); 
+            };
         }
         
-        // Event-Listener für die neuen Navigationsbuttons
         const backToLearnOptionsBtn = document.getElementById('backToLearnOptionsBtn');
         if (backToLearnOptionsBtn) {
             backToLearnOptionsBtn.onclick = () => {
                 currentView = 'learnOptions';
-                // selectedLevel, selectedChapter, selectedMainChapter sind noch gesetzt
                 renderApp();
             };
         }
@@ -1042,7 +1117,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (backToChapterSelectionBtn) {
             backToChapterSelectionBtn.onclick = () => {
                 currentView = selectedMainChapter ? 'subChapterSelection' : 'levelChapterSelection';
-                // selectedLevel ist noch gesetzt, selectedChapter/selectedMainChapter ggf. zurücksetzen, wenn zu levelChapterSelection
                 if (!selectedMainChapter) {
                     selectedChapter = null; 
                 }
@@ -1099,10 +1173,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 } else if (synth && synth.getVoices().length === 0) {
                      console.log("Browser hat nach Verzögerung immer noch keine Stimmen geladen. Warte auf onvoiceschanged.");
                 }
-            }, 750); // Etwas längere Verzögerung
+            }, 750); 
 
-            loadProgress(); // Dies ruft updateStreak(), was renderStreak() aufruft
-            renderApp();    // Dies rendert die initiale Ansicht (z.B. Home) und auch den Streak-Bereich, falls zutreffend
+            loadProgress(); 
+            renderApp();    
         } catch (error) {
             console.error("Kritischer Fehler während initializeApp:", error);
             if (appDiv) appDiv.innerHTML = `<p class='text-red-500 p-4'>Ein kritischer Fehler ist aufgetreten: ${error.message}.</p>`;
@@ -1112,9 +1186,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const splash = document.getElementById('splashScreen');
     if (splash && document.querySelector('.app-shell-container')) {
         splash.addEventListener('click', hideSplashScreenAndInit);
-        splashTimeoutId = setTimeout(hideSplashScreenAndInit, 2000); // Dauer des Splash-Screens
+        splashTimeoutId = setTimeout(hideSplashScreenAndInit, 2000); 
     } else {
-        // Fallback, falls Splash-Screen-Elemente nicht da sind (sollte nicht passieren)
         console.warn("Splash-Screen-Elemente nicht gefunden, initialisiere App direkt.");
         initializeApp();
     }

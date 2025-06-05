@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.tailwindcss.com; style-src 'self' https://cdn.tailwindcss.com 'unsafe-inline' style.css; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; media-src 'self'; audio-src 'self'; object-src 'none'; frame-ancestors 'none';">
+    <title>le BonMot - Vokabeltrainer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="splashScreen" class="splash-screen"><svg class="splash-logo" viewBox="0 0 300 300" version="1.1" xmlns="http://www.w3.org/2000/svg"><defs><clipPath id="flag-clip"><rect x="108" y="80.5" width="84" height="54" rx="5" ry="5" /></clipPath></defs><rect width="300" height="300" rx="45" ry="45" fill="#3A6EA5" /><g id="speech-bubble"><rect x="90" y="62.5" width="120" height="90" rx="28" ry="28" fill="white" /><polygon points="120,152 140,152 130,167" fill="white" /></g><g id="flag" clip-path="url(#flag-clip)"><rect x="108" y="80.5" width="28" height="54" fill="#0055A4" /><rect x="136" y="80.5" width="28" height="54" fill="#FFFFFF" /><rect x="164" y="80.5" width="28" height="54" fill="#EF4135"/></g><rect x="108" y="80.5" width="84" height="54" rx="5" ry="5" fill="none" stroke="#ccc" stroke-width="1"/><text x="150" y="230" font-family="Georgia, serif" font-size="45px" font-weight="bold" fill="white" text-anchor="middle">le BonMot</text></svg></div>
+    <div class="app-shell-container">
+        <div class="app-shell">
+            <header class="header"><svg class="header-logo-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M85 22.0001C85 18.1341 81.866 15.0001 78 15.0001H22C18.134 15.0001 15 18.1341 15 22.0001V62.0001C15 65.8661 18.134 69.0001 22 69.0001H35V81.0001L50.5 69.0001H78C81.866 69.0001 85 65.8661 85 62.0001V22.0001Z" fill="white"/><rect x="25" y="25.0001" width="16.6667" height="34" fill="#0055A4"/><rect x="41.6667" y="25.0001" width="16.6666" height="34" fill="white"/><rect x="58.3333" y="25.0001" width="16.6667" height="34" fill="#EF4135"/></svg><div><h1>le BonMot</h1><p class="header-subtitle">Vokabeltrainer</p></div></header>
+            <div id="streak-tracker"></div>
+            <main id="app" class="main-app-content"></main>
+            <div id="message-box-custom" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 hidden"><div class="bg-white p-6 rounded-lg shadow-xl max-w-sm w-full text-center"><p id="message-text-custom" class="mb-4 text-lg"></p><button id="message-ok-btn-custom" class="btn btn-primary">OK</button></div></div>
+            <footer class="text-center text-xs text-gray-500 py-3 px-4 border-t border-gray-200 flex-shrink-0">
+                &copy; Miriam Betz, 2025. Alle Rechte vorbehalten.
+            </footer>
+        </div>
+    </div>
+    <script src="vocab-data.js"></script>
+    <script src="script.js" defer></script>
+</body>
+</html>

@@ -1,3 +1,12 @@
+// NEU: Vokabeldaten aus beiden Quellen zusammenführen
+// structuredVocabData kommt von vocab-data.js
+// lektuerenData kommt von vocab-data-lektueren.js
+const allVocabData = {
+    ...(typeof structuredVocabData !== 'undefined' ? structuredVocabData : {}),
+    ...(typeof lektuerenData !== 'undefined' ? lektuerenData : {})
+};
+
+
 document.addEventListener('DOMContentLoaded', () => {
 
     // --- DOM-Elemente ---
@@ -71,14 +80,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     console.log("onvoiceschanged handler bereits vorhanden.");
                 } else if (synth.onvoiceschanged !== undefined) {
                      synth.onvoiceschanged = () => {
-                        console.log("onvoiceschanged Ereignis ausgelöst.");
-                        availableVoices = synth.getVoices();
-                        frenchVoices = availableVoices.filter(v => v.lang.startsWith('fr'));
-                        console.log("Französische Stimmen nach onvoiceschanged:", frenchVoices.map(v => ({ name: v.name, lang: v.lang, default: v.default }) ));
-                         if (frenchVoices.length === 0 && availableVoices.length > 0) {
-                            console.warn("Keine spezifischen französischen Stimmen gefunden nach onvoiceschanged.");
-                        }
-                    };
+                         console.log("onvoiceschanged Ereignis ausgelöst.");
+                         availableVoices = synth.getVoices();
+                         frenchVoices = availableVoices.filter(v => v.lang.startsWith('fr'));
+                         console.log("Französische Stimmen nach onvoiceschanged:", frenchVoices.map(v => ({ name: v.name, lang: v.lang, default: v.default }) ));
+                          if (frenchVoices.length === 0 && availableVoices.length > 0) {
+                             console.warn("Keine spezifischen französischen Stimmen gefunden nach onvoiceschanged.");
+                         }
+                     };
                 }
             } catch (e) {
                 console.error("Fehler beim Laden der Stimmen:", e);
@@ -117,7 +126,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!voice) { voice = frenchVoices.find(v => v.lang === 'fr-FR' && v.default) || frenchVoices.find(v => v.lang === 'fr-FR') || frenchVoices[0];}
             if (voice) {
                 utterance.voice = voice;
-                // console.log("Verwendete Stimme:", voice.name, "| Sprache:", voice.lang, "| Standard:", voice.default); // Weniger Logging für Sprachausgabe
             } else {
                 console.warn("Konnte keine spezifische französische Stimme zuweisen. Browser-Standard für 'fr-FR' wird verwendet (falls vorhanden).");
             }
@@ -129,8 +137,8 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        utterance.onstart = () => { /* console.log("Sprachausgabe gestartet für:", cleanedText); */ }; // Weniger Logging
-        utterance.onend = () => { /* console.log("Sprachausgabe beendet für:", cleanedText); */ }; // Weniger Logging
+        utterance.onstart = () => {};
+        utterance.onend = () => {};
         utterance.onerror = (e) => {
             console.error("Fehler bei der Sprachsynthese:", e.error, "| Für Text:", cleanedText, "| Utterance-Objekt:", utterance);
             let errorMsg = `Fehler bei Sprachausgabe: ${e.error}.`;
@@ -306,11 +314,11 @@ document.addEventListener('DOMContentLoaded', () => {
             
             if (streakTrackerDiv) {
                  if (currentView === 'home' || currentView === 'levelChapterSelection' || currentView === 'subChapterSelection' || currentView === 'chapterMenu' || currentView === 'learnOptions') {
-                    renderStreak(); 
-                    streakTrackerDiv.style.display = 'block';
-                } else {
-                    streakTrackerDiv.style.display = 'none';
-                }
+                     renderStreak(); 
+                     streakTrackerDiv.style.display = 'block';
+                 } else {
+                     streakTrackerDiv.style.display = 'none';
+                 }
             }
 
             switch (currentView) {
@@ -512,7 +520,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                         <p class="font-semibold text-gray-800">${v.french} <span class="speaker-icon-clickable-area" data-text="${v.french}"> ${speakerIconSvgContent} </span> </p> 
                                         <p class="text-gray-600">${v.german}</p> 
                                     </div> 
-                                    ${ ((selectedLevel === 'A1' || selectedLevel === 'A2' || selectedLevel === 'Wiederholung') && v.exampleFrench && v.exampleGerman) ? ` 
+                                    ${ ((selectedLevel === 'A1' || selectedLevel === 'A2' || selectedLevel === 'Wiederholung' || selectedLevel === 'Lektüren') && v.exampleFrench && v.exampleGerman) ? ` 
                                         <button class="btn-secondary py-1 px-2 text-xs rounded" data-vocab-index="${index}" onclick="toggleExample(this, 'vocab-${index}-example')">Beispiel</button> 
                                     ` : ''} 
                                 </div> 
@@ -580,8 +588,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (exampleContainer.classList.contains('hidden')) {
             console.log("toggleExample: Container war versteckt. Rufe renderExampleSentence auf.");
             renderExampleSentence(vocabItem, containerId); // renderExampleSentence macht den Container sichtbar
-            // Der Text des Buttons wird basierend darauf gesetzt, ob ein Satz gerendert wurde ODER die "nicht verfügbar" Nachricht.
-            // Wenn der Container jetzt sichtbar ist, sollte der Button "Verbergen" anzeigen.
             button.textContent = 'Verbergen';
         } else {
             console.log("toggleExample: Container war sichtbar. Verstecke ihn.");
@@ -767,7 +773,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             ${answerText} 
                             ${answerLangIsFrench ? `<span class="speaker-icon-clickable-area" data-text="${answerText}">${speakerIconSvgContent}</span>` : ''} 
                         </p> 
-                        ${ ((selectedLevel === 'A1' || selectedLevel === 'A2' || isGlobalReviewContext) && currentWord.exampleFrench && currentWord.exampleGerman) ? ` 
+                        ${ ((selectedLevel === 'A1' || selectedLevel === 'A2' || isGlobalReviewContext || selectedLevel === 'Lektüren') && currentWord.exampleFrench && currentWord.exampleGerman) ? ` 
                             <button class="btn-secondary py-1 px-2 text-xs rounded mt-3" onclick="toggleExample(this, 'flashcard-example')">Beispiel</button> 
                             <div id="flashcard-example" class="hidden mt-2 text-sm text-left w-full"></div> 
                         ` : ''} 
@@ -844,7 +850,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div id="optionsContainer" class="grid grid-cols-1 sm:grid-cols-2 gap-3">${options.map(option => `<button class="mc-option-button option-btn">${option}</button>`).join('')}</div> 
                     <div id="feedbackArea" class="mt-4 text-center min-h-[40px]"> 
                         <p id="feedbackMC" class="h-6"></p> 
-                        ${ ((selectedLevel === 'A1' || selectedLevel === 'A2' || isGlobalReviewContext) && currentWord.exampleFrench && currentWord.exampleGerman) ? ` 
+                        ${ ((selectedLevel === 'A1' || selectedLevel === 'A2' || isGlobalReviewContext || selectedLevel === 'Lektüren') && currentWord.exampleFrench && currentWord.exampleGerman) ? ` 
                             <button id="mc-example-btn" class="btn-secondary py-1 px-2 text-xs rounded mt-1 hidden" onclick="toggleExample(this, 'mc-example')">Beispiel</button> 
                             <div id="mc-example" class="hidden mt-2 text-sm text-left"></div> 
                         ` : ''} 
@@ -920,7 +926,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div id="feedbackAreaManual" class="mt-4 text-center min-h-[40px]"> 
                         <p id="feedbackFill" class="h-6"></p> 
                         <button id="markCorrectBtnManual" class="mark-correct-override-btn hidden">Als richtig markieren</button> 
-                        ${ ((selectedLevel === 'A1' || selectedLevel === 'A2' || isGlobalReviewContext) && currentWord.exampleFrench && currentWord.exampleGerman) ? ` 
+                        ${ ((selectedLevel === 'A1' || selectedLevel === 'A2' || isGlobalReviewContext || selectedLevel === 'Lektüren') && currentWord.exampleFrench && currentWord.exampleGerman) ? ` 
                             <button id="manual-example-btn" class="btn-secondary py-1 px-2 text-xs rounded mt-1 hidden" onclick="toggleExample(this, 'manual-example')">Beispiel</button> 
                             <div id="manual-example" class="hidden mt-2 text-sm text-left"></div> 
                         ` : ''} 
@@ -1034,7 +1040,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         const allCorrectInThisRound = (currentQuizType === 'flashcards' && sureCount === initialQuizWordCount && sureCount > 0 && unsureCount === 0 && noIdeaCount === 0) ||
-                                     ((currentQuizType === 'multipleChoice' || currentQuizType === 'manualInput') && roundCorrectCount === initialQuizWordCount && roundCorrectCount > 0 && roundIncorrectCount === 0);
+                                      ((currentQuizType === 'multipleChoice' || currentQuizType === 'manualInput') && roundCorrectCount === initialQuizWordCount && roundCorrectCount > 0 && roundIncorrectCount === 0);
 
         const isMainLearningRound = !isReviewRound && !isGlobalReviewContext;
 
@@ -1156,11 +1162,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function initializeApp() {
         try {
-            if (typeof structuredVocabData !== 'undefined' && structuredVocabData) {
-                vocabDataGlobal = structuredVocabData;
+            if (typeof allVocabData !== 'undefined' && allVocabData) {
+                vocabDataGlobal = allVocabData;
             } else {
                 if (appDiv) appDiv.innerHTML = "<p class='text-red-500 p-4 text-center'><b>Fataler Fehler:</b> Vokabeldaten nicht gefunden.</p>";
-                console.error("Vokabeldaten (structuredVocabData) nicht gefunden!");
+                console.error("Vokabeldaten (allVocabData) nicht gefunden!");
                 return;
             }
             if (messageOkBtn) messageOkBtn.addEventListener('click', () => messageBox.classList.add('hidden'));

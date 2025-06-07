@@ -3,10 +3,7 @@ import { state, setState } from '../state.js';
 import { getWeekNumber } from '../utils/helpers.js';
 import { addXp } from './levelingService.js';
 import { achievements } from '../data/achievements.js';
-// KORREKTUR: Importiert jetzt direkt aus 'notifications.js' statt 'views.js'
 import { showAchievementToast } from '../ui/notifications.js';
-
-// --- HILFSFUNKTIONEN ---
 
 function saveProgress() {
     try {
@@ -24,21 +21,10 @@ function saveIncorrectWordsHistory() {
     }
 }
 
-// --- AUSZEICHNUNGEN ---
-
-/**
- * Überprüft, ob eine Auszeichnung bereits freigeschaltet wurde.
- * @param {string} achievementId Die ID der Auszeichnung.
- * @returns {boolean}
- */
 function hasAchievement(achievementId) {
     return state.learningProgress.achievements.includes(achievementId);
 }
 
-/**
- * Fügt eine neue Auszeichnung zum Profil hinzu und zeigt eine Benachrichtigung an.
- * @param {string} achievementId Die ID der Auszeichnung.
- */
 function awardAchievement(achievementId) {
     if (!hasAchievement(achievementId)) {
         const newAchievements = [...state.learningProgress.achievements, achievementId];
@@ -48,36 +34,23 @@ function awardAchievement(achievementId) {
     }
 }
 
-/**
- * Überprüft und vergibt Auszeichnungen basierend auf dem aktuellen Zustand.
- * @param {'SESSION_END' | 'CHAPTER_COMPLETE' | 'REVIEW_COMPLETE' | 'MODE_USED'} trigger Der Auslöser für die Überprüfung.
- */
 export function checkAndAwardAchievements(trigger) {
     const { learningProgress, vocabDataGlobal, selectedLevel } = state;
 
-    // Trigger: Nach jeder Lernsitzung
     if (trigger === 'SESSION_END') {
-        // Streak-Auszeichnungen
         if (learningProgress.streak.current >= 3) awardAchievement('DAILY_ROUTINE');
         if (learningProgress.streak.current >= 7) awardAchievement('WEEKLY_CHAMPION');
         if (learningProgress.streak.current >= 14) awardAchievement('PERSEVERANCE');
         if (learningProgress.streak.current >= 30) awardAchievement('MONTHLY_MASTER');
-
-        // XP-Auszeichnungen
         if (learningProgress.totalXp >= 100) awardAchievement('VOCAB_COLLECTOR');
         if (learningProgress.totalXp >= 500) awardAchievement('VOCAB_VIRTUOSO');
         if (learningProgress.totalXp >= 1000) awardAchievement('LEXICON_LEGEND');
-
-        // Marathon-Auszeichnung
         if (state.initialQuizWordCount > 50) awardAchievement('LEARNING_MARATHON');
     }
 
-    // Trigger: Nach Abschluss eines Kapitels
     if (trigger === 'CHAPTER_COMPLETE') {
         const totalCompleted = Object.values(learningProgress.completedChapters).flat().length;
         if (totalCompleted >= 5) awardAchievement('CHAPTER_GURU');
-
-        // Niveau-Meister
         const chaptersInLevel = Object.keys(vocabDataGlobal[selectedLevel] || {});
         const completedInLevel = learningProgress.completedChapters[selectedLevel] || [];
         if (chaptersInLevel.length > 0 && chaptersInLevel.every(chap => completedInLevel.includes(chap))) {
@@ -85,32 +58,25 @@ export function checkAndAwardAchievements(trigger) {
         }
     }
     
-    // Trigger: Nach erfolgreicher Fehler-Wiederholung
     if(trigger === 'REVIEW_COMPLETE') {
         awardAchievement('ERROR_CONQUEROR');
     }
 
-    // Trigger: Nach Nutzung eines Lernmodus
     if (trigger === 'MODE_USED') {
         const today = new Date().toDateString();
-        // Reset, wenn ein neuer Tag beginnt
         if (learningProgress.dailyStats.date !== today) {
             learningProgress.dailyStats.date = today;
             learningProgress.dailyStats.modesUsed = [];
         }
-        // Füge den aktuellen Modus hinzu, falls noch nicht vorhanden
         if (!learningProgress.dailyStats.modesUsed.includes(state.currentQuizType)) {
             learningProgress.dailyStats.modesUsed.push(state.currentQuizType);
         }
-        // Überprüfe, ob alle 3 Modi genutzt wurden
         if (learningProgress.dailyStats.modesUsed.length >= 3) {
             awardAchievement('METHOD_MIXER');
         }
         saveProgress();
     }
 }
-
-// --- FORTSCHRITTSMANAGEMENT (Laden, Speichern, etc.) ---
 
 export function loadProgress() {
     try {
@@ -137,7 +103,6 @@ export function loadProgress() {
         }
     } catch (e) {
         console.error("Error loading progress:", e);
-        // Reset zu einem sauberen Zustand bei Fehler
         setState({ 
             learningProgress: {
                 completedChapters: {}, startedChapters: {}, streak: { current: 0, lastLearnedDate: null },
@@ -154,41 +119,74 @@ export function loadProgress() {
 
 export function updateStreak() {
     const today = (new Date()).toDateString();
-    const lastLearned = state.learningProgress.streak.lastLearnedDate;
+    let streakData = state.learningProgress.streak;
+
+    // Sicherheitsprüfung für korrupte Daten
+    if (typeof streakData !== 'object' || streakData === null) {
+        streakData = { current: 0, lastLearnedDate: null };
+    }
+    const lastLearned = streakData.lastLearnedDate;
 
     if (lastLearned) {
         const diffDays = ((new Date(today)) - (new Date(lastLearned))) / (1000 * 60 * 60 * 24);
         if (diffDays > 1) {
-            state.learningProgress.streak.current = 0;
-            // Perfekte-Serie bei unterbrochenem Streak zurücksetzen
-            setState({ learningProgress: { consecutivePerfectChapters: 0 }});
+            streakData.current = 0;
+            setState({ learningProgress: { streak: streakData, consecutivePerfectChapters: 0 } });
         }
     }
     saveProgress();
 }
 
+/**
+ * KORRIGIERTE VERSION
+ * Schließt eine Lernsitzung ab, aktualisiert XP, Streak und Wochenstatistik.
+ * Diese Version ist robuster gegen korrupte Speicherdaten.
+ * @param {number} wordsLearnedInQuiz Anzahl der gelernten Wörter in der Runde.
+ */
 export function completeLearningSession(wordsLearnedInQuiz) {
-    const today = (new Date()).toDateString();
-    const lastLearned = state.learningProgress.streak.lastLearnedDate;
+    const today = new Date().toDateString();
+    let streakData = state.learningProgress.streak;
 
+    // Sicherheitsprüfung: Wenn 'streak' korrumpiert ist (z.B. eine Zahl), wird es repariert.
+    if (typeof streakData !== 'object' || streakData === null) {
+        console.warn("Streak-Daten waren korrumpiert. Setze Streak zurück.");
+        streakData = { current: 0, lastLearnedDate: null };
+    }
+
+    let newStreakValue = streakData.current || 0;
+    const lastLearned = streakData.lastLearnedDate;
+
+    // Neuen Streak-Wert berechnen
     if (lastLearned !== today) {
         if (lastLearned && ((new Date(today)) - (new Date(lastLearned))) / (1000 * 60 * 60 * 24) === 1) {
-            state.learningProgress.streak.current += 1;
+            newStreakValue += 1;
         } else {
-            state.learningProgress.streak.current = 1;
+            newStreakValue = 1;
         }
-        state.learningProgress.streak.lastLearnedDate = today;
     }
-
+    
+    // Andere Werte berechnen
     const weekKey = getWeekNumber(new Date());
-    if (!state.learningProgress.weeklyStats[weekKey]) {
-        state.learningProgress.weeklyStats[weekKey] = 0;
+    const weeklyStats = { ...state.learningProgress.weeklyStats };
+    if (!weeklyStats[weekKey]) {
+        weeklyStats[weekKey] = 0;
     }
-    state.learningProgress.weeklyStats[weekKey] += wordsLearnedInQuiz;
+    weeklyStats[weekKey] += wordsLearnedInQuiz;
 
     const newTotalXp = addXp(state.learningProgress.totalXp, wordsLearnedInQuiz);
-    setState({ learningProgress: { totalXp: newTotalXp } });
     
+    // State mit allen Änderungen auf einmal aktualisieren, um Inkonsistenzen zu vermeiden
+    setState({
+        learningProgress: {
+            streak: {
+                current: newStreakValue,
+                lastLearnedDate: today
+            },
+            weeklyStats: weeklyStats,
+            totalXp: newTotalXp
+        }
+    });
+
     checkAndAwardAchievements('SESSION_END');
     saveProgress();
 }

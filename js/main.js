@@ -4,8 +4,7 @@ import { DOM } from './ui/domElements.js';
 import { getMergedVocabData } from './services/vocabService.js';
 import { loadProgress } from './services/progressService.js';
 import { loadVoices } from './services/speechService.js';
-import { renderApp } from './ui/views.js';
-// KORREKTUR: Importiert 'showMessage' jetzt aus der richtigen Datei 'notifications.js'
+import { renderApp } from './ui/renderer.js'; // <- Pfad angepasst
 import { showMessage } from './ui/notifications.js';
 
 let splashTimeoutId = null;
@@ -25,7 +24,6 @@ function initializeApp() {
         }
 
         loadVoices();
-        // Fallback-Laden der Stimmen
         setTimeout(() => {
             if (window.speechSynthesis && window.speechSynthesis.getVoices().length === 0) {
                 console.log("Erneuter Versuch, Stimmen zu laden, da die Liste leer ist.");
@@ -33,8 +31,8 @@ function initializeApp() {
             }
         }, 750);
 
-        loadProgress(); // Lädt Fortschritt und aktualisiert den State
-        renderApp(); // Rendert die App basierend auf dem initialen State
+        loadProgress();
+        renderApp();
     } catch (error) {
         console.error("Kritischer Fehler während initializeApp:", error);
         if (DOM.appDiv) DOM.appDiv.innerHTML = `<p class='text-red-500 p-4'>Ein kritischer Fehler ist aufgetreten: ${error.message}.</p>`;

@@ -2,26 +2,21 @@
 import { state, setState } from '../state.js';
 import { DOM } from './domElements.js';
 import { getWeekNumber, shuffleArray, normalizeAnswerGeneral, normalizeGermanAnswerForComparison } from '../utils/helpers.js';
-import { isChapterCompleted, isChapterStarted, markChapterAsCompleted, completeLearningSession, logIncorrectWord } from '../services/progressService.js';
+import { isChapterCompleted, isChapterStarted, markChapterAsCompleted, completeLearningSession, logIncorrectWord, checkAndAwardAchievements } from '../services/progressService.js';
 import { speakFrench } from '../services/speechService.js';
 import { startQuiz, startGlobalReview } from '../quiz/quizManager.js';
+import { calculateLevelInfo } from '../services/levelingService.js';
+import { achievements } from '../data/achievements.js';
+// KORRIGIERTER IMPORT: Importiert aus dem neuen notifications-Modul
+import { showMessage } from './notifications.js';
 
 // --- Konstanten & Hilfsfunktionen für die UI ---
 
 const speakerIconSvgContent = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="inline-block align-middle ml-1 mr-1 w-5 h-5 text-gray-500 hover:text-blue-600 cursor-pointer transition-colors"><path d="M13.5 4.06c0-1.336-1.616-2.005-2.56-1.06l-4.5 4.5H4.508c-1.141 0-2.318.664-2.66 1.905A9.76 9.76 0 001.5 12c0 .898.121 1.768.35 2.595.341 1.24 1.518 1.905 2.66 1.905H6.44l4.5 4.5c.945.945 2.56.276 2.56-1.06V4.06zM18.584 5.106a.75.75 0 011.06 0c3.808 3.807 3.808 9.98 0 13.788a.75.75 0 11-1.06-1.06 8.25 8.25 0 000-11.668.75.75 0 010-1.06z" /><path d="M15.932 7.757a.75.75 0 011.061 0 6 6 0 010 8.486.75.75 0 01-1.06-1.061 4.5 4.5 0 000-6.364.75.75 0 010-1.06z" /></svg>`;
 
-export function showMessage(text) {
-    if (DOM.messageText && DOM.messageBox) {
-        DOM.messageText.textContent = text;
-        DOM.messageBox.classList.remove('hidden');
-    } else {
-        alert(text);
-        console.error("Message box elements not found for: ", text);
-    }
-}
+// Die Funktionen showMessage und showAchievementToast sind jetzt in notifications.js
 
 // --- Haupt-Render-Logik ---
-
 export function renderApp() {
     if (!DOM.appDiv) {
         console.error("Fatal Error: appDiv not found!");
@@ -52,7 +47,7 @@ export function renderApp() {
             case 'flashcards': renderFlashcardsScreen(); break;
             case 'multipleChoice': renderMultipleChoiceScreen(); break;
             case 'manualInput': renderManualInputScreen(); break;
-            // 'quizEnd' wird direkt von den Quiz-Funktionen aufgerufen
+            case 'quizEnd': renderQuizEndScreen(); break;
             default:
                 console.warn(`Unbekannte Ansicht: ${state.currentView}. Zeige Startbildschirm.`);
                 setState({ currentView: 'home' });
@@ -78,25 +73,62 @@ function renderStreak() {
     }
 }
 
-function renderHomeScreen() {
-    const { vocabDataGlobal, learningProgress } = state;
-    const levels = Object.keys(vocabDataGlobal);
-    const today = new Date();
-    const weekKey = getWeekNumber(today);
-    const weeklyVocabCount = learningProgress.weeklyStats[weekKey] || 0;
-    const streakValue = (learningProgress.streak && learningProgress.streak.current) || 0;
+function renderProgressTracker() {
+    const { totalXp, achievements: unlockedAchievements } = state.learningProgress;
+    const { level, currentLevelXp, xpForNextLevel, progressPercentage } = calculateLevelInfo(totalXp);
 
+    const unlockedAchievementDetails = unlockedAchievements
+        .map(id => ({ id, ...achievements[id] }))
+        .filter(a => a.title);
+
+    return `
+        <div id="progress-tracker-container" class="mt-10 pt-6 border-t border-gray-300">
+            <h3 class="text-xl font-semibold text-slate-700 mb-4">Dein Fortschritt</h3>
+            
+            <div class="mb-4">
+                <div class="flex justify-between items-end mb-1">
+                    <span class="text-lg font-bold text-blue-600">Level ${level}</span>
+                    <span class="text-sm text-gray-500">${currentLevelXp} / ${xpForNextLevel} XP</span>
+                </div>
+                <div class="progress-bar-bg w-full bg-gray-200 rounded-full h-4">
+                    <div class="progress-fill bg-blue-500 h-4 rounded-full" style="width: ${progressPercentage}%"></div>
+                </div>
+            </div>
+
+            <div id="achievements-container">
+                <h4 class="text-md font-semibold text-slate-600 mb-3">Auszeichnungen</h4>
+                ${unlockedAchievementDetails.length > 0 ? `
+                    <div class="flex flex-wrap gap-4">
+                        ${unlockedAchievementDetails.map(ach => `
+                            <div class="flex items-center p-2 bg-amber-100 rounded-lg border border-amber-300" title="${ach.description}">
+                                <i class="${ach.icon} text-amber-600 text-xl mr-2"></i>
+                                <span class="text-sm font-medium text-amber-800">${ach.title}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                ` : `
+                    <p class="text-sm text-gray-500 italic">Lerne weiter, um deine ersten Auszeichnungen freizuschalten!</p>
+                `}
+            </div>
+        </div>
+    `;
+}
+
+function renderHomeScreen() {
+    const { vocabDataGlobal } = state;
+    const levels = Object.keys(vocabDataGlobal);
+    
     DOM.appDiv.innerHTML = `
         <div class="text-center">
             <h2 class="text-2xl font-bold text-slate-800 mb-2">Willkommen bei le BonMot!</h2>
             <p class="text-slate-600 mb-6">Bitte wähle dein Niveau aus, um zu starten.</p>
-            <div id="home-stats-container" class="mb-8">
-                ${streakValue > 0 ? `<p class="stat-item mb-1">🔥 Du hast einen aktuellen Streak von <strong>${streakValue} ${streakValue === 1 ? 'Tag' : 'Tage'}</strong>!</p>` : ''}
-                <p class="stat-item">Du hast diese Woche schon <strong>${weeklyVocabCount}</strong> Vokabeln gelernt!</p>
-            </div>
+            
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 ${levels.map(level => `<button class="btn text-lg py-4 btn-level" data-level="${level}">${level}</button>`).join('')}
             </div>
+
+            ${renderProgressTracker()}
+
             <div id="review-errors-container" class="mt-10 pt-6 border-t border-gray-300">
                 <h3 class="text-xl font-semibold text-slate-700 mb-4">Fehler wiederholen</h3>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -105,6 +137,7 @@ function renderHomeScreen() {
                 </div>
             </div>
         </div>`;
+
     DOM.appDiv.querySelectorAll('[data-level]').forEach(button => {
         button.onclick = () => {
             setState({ selectedLevel: button.dataset.level, currentView: 'levelChapterSelection' });
@@ -310,7 +343,6 @@ function toggleExample(button, containerId) {
     }
 }
 
-
 function renderVocabListScreen() {
     const { selectedLevel, selectedMainChapter, selectedChapter, vocabDataGlobal } = state;
     const vocabList = selectedMainChapter ? vocabDataGlobal[selectedLevel][selectedMainChapter][selectedChapter] : vocabDataGlobal[selectedLevel][selectedChapter];
@@ -353,7 +385,7 @@ function renderVocabListScreen() {
 function renderLearnOptionsScreen() {
     const { selectedLevel, selectedMainChapter, selectedChapter, vocabDataGlobal } = state;
     const vocab = selectedMainChapter ? vocabDataGlobal[selectedLevel][selectedMainChapter][selectedChapter] : vocabDataGlobal[selectedLevel][selectedChapter];
-    const totalVocabCount = vocab ? vocab.length : 0;
+    const totalVocabCount = Array.isArray(vocab) ? vocab.length : 0;
     if (totalVocabCount === 0) {
         showMessage("Keine Vokabeln in diesem Kapitel zum Lernen verfügbar.");
         setState({ currentView: 'chapterMenu' });
@@ -771,36 +803,56 @@ function createVocabCelebrationAnimationHTML() {
     return `<div class="vocab-celebration-container">${logoHtml}${confettiHtml}</div>`;
 }
 
+// Diese Funktion wurde in der letzten Runde aktualisiert, um die Auszeichnungslogik zu integrieren
 function renderQuizEndScreen() {
-    let reviewOptionsHtml = '';
-    const { currentQuizType, sureCount, roundCorrectCount, initialQuizWordCount, isReviewRound } = state;
-    const { selectedLevel, incorrectlyAnsweredWordsGlobal } = state;
+    const { currentQuizType, sureCount, roundCorrectCount, initialQuizWordCount, isReviewRound, roundIncorrectCount, learningProgress } = state;
+    const { selectedLevel, incorrectlyAnsweredWordsGlobal, isGlobalReviewFlag } = state;
     
     const isGlobalReviewContext = selectedLevel === 'Wiederholung';
     const wordsForNextReview = [...new Set(incorrectlyAnsweredWordsGlobal)];
     let celebrationAnimationHtml = '';
 
-    if (wordsForNextReview.length > 0) {
-        reviewOptionsHtml = `
-            <p class="text-md text-gray-600 my-4">Du hattest ${wordsForNextReview.length} Fehler. Möchtest du diese wiederholen?</p>
-            <button id="startReviewBtn" class="btn btn-primary w-full">Die ${wordsForNextReview.length} Fehler nochmal üben</button>`;
-    }
-
     const allCorrectInThisRound = (currentQuizType === 'flashcards' && sureCount === initialQuizWordCount && sureCount > 0 && state.unsureCount === 0 && state.noIdeaCount === 0) ||
-                                  ((currentQuizType === 'multipleChoice' || currentQuizType === 'manualInput') && roundCorrectCount === initialQuizWordCount && roundCorrectCount > 0 && state.roundIncorrectCount === 0);
+                                  ((currentQuizType === 'multipleChoice' || currentQuizType === 'manualInput') && roundCorrectCount === initialQuizWordCount && roundCorrectCount > 0 && roundIncorrectCount === 0);
 
     const isMainLearningRound = !isReviewRound && !isGlobalReviewContext;
-
+    
     if (isMainLearningRound) {
         let wordsActuallyLearnedThisSession = (currentQuizType === 'flashcards') ? sureCount : roundCorrectCount;
         if (wordsActuallyLearnedThisSession > 0) {
             completeLearningSession(wordsActuallyLearnedThisSession);
         }
     }
+    
+    if (allCorrectInThisRound) {
+        if (isGlobalReviewContext) {
+            checkAndAwardAchievements('REVIEW_COMPLETE');
+        }
 
-    if (isMainLearningRound && allCorrectInThisRound) {
-        markChapterAsCompleted();
-        celebrationAnimationHtml = createVocabCelebrationAnimationHTML();
+        if (isMainLearningRound) {
+            markChapterAsCompleted(); 
+            celebrationAnimationHtml = createVocabCelebrationAnimationHTML();
+            
+            const newConsecutive = learningProgress.consecutivePerfectChapters + 1;
+            setState({ learningProgress: { consecutivePerfectChapters: newConsecutive } });
+
+            checkAndAwardAchievements('PERFECTION_CHECK');
+
+            if(!learningProgress.hasCompletedFirstLesson) {
+                setState({ learningProgress: { hasCompletedFirstLesson: true } });
+            }
+        }
+    } else {
+        if (isMainLearningRound) {
+            setState({ learningProgress: { consecutivePerfectChapters: 0, hasCompletedFirstLesson: true } });
+        }
+    }
+    
+    let reviewOptionsHtml = '';
+    if (wordsForNextReview.length > 0) {
+        reviewOptionsHtml = `
+            <p class="text-md text-gray-600 my-4">Du hattest ${wordsForNextReview.length} Fehler. Möchtest du diese wiederholen?</p>
+            <button id="startReviewBtn" class="btn btn-primary w-full">Die ${wordsForNextReview.length} Fehler nochmal üben</button>`;
     }
 
     let scoreDisplay = `${currentQuizType === 'flashcards' ? sureCount : roundCorrectCount} / ${initialQuizWordCount}`;

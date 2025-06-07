@@ -1,5 +1,6 @@
 // js/services/speechService.js
-import { showMessage } from '../ui/views.js';
+// KORRIGIERTER IMPORT: Importiert jetzt aus dem neuen 'notifications'-Modul.
+import { showMessage } from '../ui/notifications.js';
 
 const synth = window.speechSynthesis;
 let frenchVoices = [];

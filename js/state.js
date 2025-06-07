@@ -38,12 +38,22 @@ export let state = {
         completedChapters: {},
         startedChapters: {},
         streak: { current: 0, lastLearnedDate: null },
-        weeklyStats: {}
+        weeklyStats: {},
+        totalXp: 0,
+        achievements: [], // Beinhaltet die IDs der freigeschalteten Auszeichnungen
+        // NEU: Tracking für Auszeichnungen
+        consecutivePerfectChapters: 0,
+        dailyStats: { date: null, modesUsed: [] },
+        hasCompletedFirstLesson: false,
     },
     incorrectWordsHistory: [],
 };
 
 // Funktion zum sicheren Setzen des Zustands
 export function setState(newState) {
+    if (newState.learningProgress) {
+        state.learningProgress = { ...state.learningProgress, ...newState.learningProgress };
+        delete newState.learningProgress;
+    }
     state = { ...state, ...newState };
 }

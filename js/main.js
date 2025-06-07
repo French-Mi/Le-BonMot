@@ -4,7 +4,9 @@ import { DOM } from './ui/domElements.js';
 import { getMergedVocabData } from './services/vocabService.js';
 import { loadProgress } from './services/progressService.js';
 import { loadVoices } from './services/speechService.js';
-import { renderApp, showMessage } from './ui/views.js';
+import { renderApp } from './ui/views.js';
+// KORREKTUR: Importiert 'showMessage' jetzt aus der richtigen Datei 'notifications.js'
+import { showMessage } from './ui/notifications.js';
 
 let splashTimeoutId = null;
 

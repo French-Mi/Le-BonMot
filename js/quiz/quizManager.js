@@ -1,8 +1,10 @@
 // js/quiz/quizManager.js
 import { state, setState } from '../state.js';
 import { shuffleArray } from '../utils/helpers.js';
-import { showMessage, renderApp } from '../ui/views.js';
-import { markChapterAsStarted } from '../services/progressService.js';
+// KORRIGIERTER IMPORT: Importe sind jetzt auf die korrekten Dateien aufgeteilt
+import { showMessage } from '../ui/notifications.js'; 
+import { renderApp } from '../ui/views.js';
+import { markChapterAsStarted, checkAndAwardAchievements } from '../services/progressService.js';
 
 export function startGlobalReview(days) {
     const now = new Date();
@@ -40,7 +42,7 @@ export function startGlobalReview(days) {
         selectedChapter: tempChapter
     });
     
-    startQuiz('manualInput', reviewBatch, true);
+    startQuiz('manualInput', reviewBatch, true); 
 }
 
 export function startQuiz(quizType, wordsForQuizOverride = null, isGlobalReviewFlag = false) {
@@ -66,7 +68,6 @@ export function startQuiz(quizType, wordsForQuizOverride = null, isGlobalReviewF
             }
             wordsForQuiz = shuffleArray([...wordsForQuizOverride]);
         } else {
-            // HIER WAR DER FEHLER: `chapterForQuiz` wurde durch `selectedChapter` ersetzt.
             const chapterVocab = selectedMainChapter
                 ? vocabDataGlobal[selectedLevel]?.[selectedMainChapter]?.[selectedChapter]
                 : vocabDataGlobal[selectedLevel]?.[selectedChapter];
@@ -80,7 +81,7 @@ export function startQuiz(quizType, wordsForQuizOverride = null, isGlobalReviewF
             let numVocs = desiredVocabCount > 0 ? Math.min(desiredVocabCount, chapterVocab.length) : chapterVocab.length;
             if (numVocs === 0 && chapterVocab.length > 0) numVocs = chapterVocab.length;
             wordsForQuiz = shuffleArray([...chapterVocab]).slice(0, numVocs);
-            setState({ chapterVocab }); // Speichere das vollständige Kapitelvokabular für die Ablenker im MC-Quiz
+            setState({ chapterVocab });
         }
 
         if (wordsForQuiz.length === 0) {
@@ -90,7 +91,6 @@ export function startQuiz(quizType, wordsForQuizOverride = null, isGlobalReviewF
             return;
         }
 
-        // Reset state for new quiz
         setState({
             currentQuizType: quizType,
             isReviewRound: isReviewRound,
@@ -106,6 +106,8 @@ export function startQuiz(quizType, wordsForQuizOverride = null, isGlobalReviewF
             isCardFlipped: false,
             currentView: quizType
         });
+        
+        checkAndAwardAchievements('MODE_USED');
 
         renderApp();
     } catch (error) {

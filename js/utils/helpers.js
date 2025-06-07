@@ -15,13 +15,16 @@ export function shuffleArray(array) {
 }
 
 /**
- * Normalisiert eine Antwort für allgemeine Vergleiche (Kleinbuchstaben, keine Satzzeichen).
+ * KORRIGIERTE VERSION
+ * Normalisiert eine Antwort für allgemeine Vergleiche.
+ * Entfernt jetzt beide Arten von Apostrophen (' und ’).
  * @param {string} answer Die zu normalisierende Antwort.
  * @returns {string} Die normalisierte Antwort.
  */
 export function normalizeAnswerGeneral(answer) {
     if (typeof answer !== 'string') return '';
-    return answer.toLowerCase().trim().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()"]/g, "").replace(/\s+/g, ' ').trim();
+    // Die Regex wurde um beide Apostroph-Typen ' und ’ erweitert.
+    return answer.toLowerCase().trim().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()"'’]/g, "").replace(/\s+/g, ' ').trim();
 }
 
 /**
@@ -34,7 +37,7 @@ export function normalizeGermanAnswerForComparison(answer) {
     let normalized = answer.toLowerCase().trim();
     const articles = /\b(der|die|das|ein|eine|einen|einem|einer)\b\s*/gi;
     normalized = normalized.replace(articles, '').trim();
-    normalized = normalized.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()"]/g, "");
+    normalized = normalized.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()"'’]/g, "");
     return normalized.replace(/\s+/g, ' ').trim();
 }
 

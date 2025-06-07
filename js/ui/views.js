@@ -124,8 +124,6 @@ function renderHomeScreen() {
                 ${levels.map(level => `<button class="btn text-lg py-4 btn-level" data-level="${level}">${level}</button>`).join('')}
             </div>
 
-            ${renderProgressTracker()}
-
             <div id="review-errors-container" class="mt-10 pt-6 border-t border-gray-300">
                 <h3 class="text-xl font-semibold text-slate-700 mb-4">Fehler wiederholen</h3>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -133,6 +131,9 @@ function renderHomeScreen() {
                     <button id="review7d" class="btn btn-secondary">Fehler der letzten 7 Tage</button>
                 </div>
             </div>
+
+            ${renderProgressTracker()}
+
         </div>`;
 
     DOM.appDiv.querySelectorAll('[data-level]').forEach(button => {
@@ -717,11 +718,26 @@ function renderManualInputScreen() {
     submitBtn.onclick = () => {
         markCorrectBtnManual.classList.add('hidden');
         const userAnswerRaw = answerInput.value.trim();
-        const correctOriginalOptions = answerLangOriginal.split(/[\/;]\s*/);
+        
+        // NEUE LOGIK FÜR KLAMMERN
+        const initialOptions = answerLangOriginal.split(/[\/;]\s*/);
+        const correctOriginalOptions = initialOptions.flatMap(opt => {
+            const match = opt.match(/(.*)\((.*)\)(.*)/);
+            if (!match) {
+                return [opt];
+            }
+            const [, prefix, content, suffix] = match;
+            const shortVersion = (prefix + suffix).trim().replace(/\s+/g, ' ');
+            const longVersion = (prefix + content + suffix).trim().replace(/\s+/g, ' ');
+            return [opt, shortVersion, longVersion];
+        });
+        
         const normalizeFunc = currentQuizDirection === 'frToDe' ? normalizeGermanAnswerForComparison : normalizeAnswerGeneral;
         const userAnswerNormalized = normalizeFunc(userAnswerRaw);
-        const isCorrect = correctOriginalOptions.some(opt => normalizeFunc(opt) === userAnswerNormalized);
 
+        const correctNormalizedOptions = new Set(correctOriginalOptions.map(opt => normalizeFunc(opt)));
+        const isCorrect = correctNormalizedOptions.has(userAnswerNormalized);
+        
         let newCorrectCount = state.roundCorrectCount;
         let newIncorrectCount = state.roundIncorrectCount;
 
@@ -734,7 +750,7 @@ function renderManualInputScreen() {
             if (!state.incorrectlyAnsweredWordsGlobal.find(w => w.french === currentWord.french)) {
                 state.incorrectlyAnsweredWordsGlobal.push(currentWord);
             }
-            feedbackP.textContent = `Falsch. Richtig: ${correctOriginalOptions.join(' / ')}`;
+            feedbackP.textContent = `Falsch. Richtig: ${initialOptions.join(' / ')}`;
             feedbackP.className = 'h-6 feedback-text-incorrect';
             markCorrectBtnManual.classList.remove('hidden');
             if (selectedLevel !== 'Wiederholung') logIncorrectWord(currentWord);

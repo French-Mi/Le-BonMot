@@ -1,0 +1,27 @@
+// js/data/a1/kleidung.js
+export const kleidungVocab = [
+    { french: "les vêtements", german: "die Kleidung, die Kleidungsstücke", exampleFrench: "J'ai besoin de nouveaux vêtements.", exampleGerman: "Ich brauche neue Kleidung." },
+    { french: "le magasin", german: "der Laden", exampleFrench: "Ce magasin vend des chaussures.", exampleGerman: "Dieser Laden verkauft Schuhe." },
+    { french: "une boutique", german: "das Geschäft, der Laden", exampleFrench: "C'est une petite boutique de mode.", exampleGerman: "Das ist ein kleines Modegeschäft." },
+    { french: "un t-shirt", german: "ein T-Shirt", exampleFrench: "J'aime ton t-shirt bleu.", exampleGerman: "Ich mag dein blaues T-Shirt." },
+    { french: "un short", german: "eine kurze Hose", exampleFrench: "Il fait chaud, je vais mettre un short.", exampleGerman: "Es ist heiß, ich ziehe eine kurze Hose an." },
+    { french: "un pantalon", german: "eine Hose", exampleFrench: "Ce pantalon est trop grand.", exampleGerman: "Diese Hose ist zu groß." },
+    { french: "des chaussures (f, pl)", german: "Schuhe", exampleFrench: "J'ai acheté de nouvelles chaussures.", exampleGerman: "Ich habe neue Schuhe gekauft." },
+    { french: "des chaussettes (f, pl)", german: "Socken", exampleFrench: "Où sont mes chaussettes rouges ?", exampleGerman: "Wo sind meine roten Socken?" },
+    { french: "une robe", german: "ein Kleid", exampleFrench: "Elle porte une belle robe.", exampleGerman: "Sie trägt ein schönes Kleid." },
+    { french: "une chemise", german: "ein Hemd", exampleFrench: "Il a mis une chemise blanche.", exampleGerman: "Er hat ein weißes Hemd angezogen." },
+    { french: "une cravate", german: "eine Krawatte", exampleFrench: "Dois-je porter une cravate ?", exampleGerman: "Muss ich eine Krawatte tragen?" },
+    { french: "une jupe", german: "ein Rock", exampleFrench: "Cette jupe est très élégante.", exampleGerman: "Dieser Rock ist sehr elegant." },
+    { french: "des sandales (f, pl)", german: "Sandalen", exampleFrench: "En été, je porte des sandales.", exampleGerman: "Im Sommer trage ich Sandalen." },
+    { french: "des baskets (f, pl)", german: "Turnschuhe", exampleFrench: "J'ai besoin de nouvelles baskets pour courir.", exampleGerman: "Ich brauche neue Turnschuhe zum Laufen." },
+    { french: "une casquette", german: "eine Mütze, Kappe", exampleFrench: "Il porte toujours une casquette.", exampleGerman: "Er trägt immer eine Kappe." },
+    { french: "un jogging", german: "Jogginghosen", exampleFrench: "Ce jogging est très confortable.", exampleGerman: "Diese Jogginghose ist sehr bequem." },
+    { french: "un sweat", german: "ein Sweatshirt", exampleFrench: "J'ai froid, je vais mettre un sweat.", exampleGerman: "Mir ist kalt, ich ziehe ein Sweatshirt an." },
+    { french: "un pull", german: "ein Pullover", exampleFrench: "Ce pull en laine tient chaud.", exampleGerman: "Dieser Wollpullover hält warm." },
+    { french: "un anorak", german: "ein Anorak", exampleFrench: "Prends ton anorak, il va pleuvoir.", exampleGerman: "Nimm deinen Anorak, es wird regnen." },
+    { french: "un manteau", german: "ein Mantel", exampleFrench: "J'ai oublié mon manteau.", exampleGerman: "Ich habe meinen Mantel vergessen." },
+    { french: "une veste", german: "eine Jacke; ein Sakko", exampleFrench: "Cette veste te va bien.", exampleGerman: "Diese Jacke steht dir gut." },
+    { french: "une écharpe", german: "ein Schal", exampleFrench: "N'oublie pas ton écharpe, il fait froid.", exampleGerman: "Vergiss deinen Schal nicht, es ist kalt." },
+    { french: "une botte", german: "ein Stiefel", exampleFrench: "J'ai des bottes de pluie.", exampleGerman: "Ich habe Regenstiefel." },
+    { french: "porter qc", german: "etw. tragen", exampleFrench: "Que vas-tu porter ce soir ?", exampleGerman: "Was wirst du heute Abend tragen?" }
+];

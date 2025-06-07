@@ -1,0 +1,23 @@
+export const vorlieben2Vocab = [
+    { french: "le fromage", german: "der Käse", exampleFrench: "J'aime le fromage français.", exampleGerman: "Ich mag französischen Käse." },
+    { french: "le jambon", german: "der Schinken", exampleFrench: "Je mange un sandwich au jambon.", exampleGerman: "Ich esse ein Schinkenbrot." },
+    { french: "le miel", german: "der Honig", exampleFrench: "L'ours aime le miel.", exampleGerman: "Der Bär mag Honig." },
+    { french: "la confiture", german: "die Marmelade", exampleFrench: "Je prends de la confiture de fraises.", exampleGerman: "Ich nehme Erdbeermarmelade." },
+    { french: "le chocolat", german: "die Schokolade", exampleFrench: "Elle adore le chocolat noir.", exampleGerman: "Sie liebt dunkle Schokolade." },
+    { french: "le thé", german: "der Tee", exampleFrench: "Je bois du thé vert le matin.", exampleGerman: "Ich trinke morgens grünen Tee." },
+    { french: "le vin", german: "der Wein", exampleFrench: "Le vin rouge est populaire en France.", exampleGerman: "Rotwein ist in Frankreich beliebt." },
+    { french: "parler", german: "sprechen", exampleFrench: "Nous parlons de nos vacances.", exampleGerman: "Wir sprechen über unseren Urlaub." },
+    { french: "parler le français", german: "Französisch sprechen", exampleFrench: "Il veut apprendre à parler le français.", exampleGerman: "Er möchte lernen, Französisch zu sprechen." },
+    { french: "parler l’allemand", german: "Deutsch sprechen", exampleFrench: "Elle parle l’allemand couramment.", exampleGerman: "Sie spricht fließend Deutsch." },
+    { french: "parler l’anglais", german: "Englisch sprechen", exampleFrench: "Beaucoup de gens parlent l’anglais.", exampleGerman: "Viele Leute sprechen Englisch." },
+    { french: "Tu parles quelles langues?", german: "Welche Sprachen sprichst du?", exampleFrench: "Tu parles quelles langues étrangères?", exampleGerman: "Welche Fremdsprachen sprichst du?" },
+    { french: "la langue", german: "die Sprache", exampleFrench: "La langue française est belle.", exampleGerman: "Die französische Sprache ist schön." },
+    { french: "travailler", german: "arbeiten", exampleFrench: "Mon père va travailler en voiture.", exampleGerman: "Mein Vater fährt mit dem Auto zur Arbeit." },
+    { french: "rester", german: "bleiben", exampleFrench: "Je reste à la maison aujourd'hui.", exampleGerman: "Ich bleibe heute zu Hause." },
+    { french: "ici", german: "hier", exampleFrench: "Le livre est ici, sur la table.", exampleGerman: "Das Buch ist hier, auf dem Tisch." },
+    { french: "voyager", german: "reisen", exampleFrench: "Nous aimons voyager en Europe.", exampleGerman: "Wir reisen gerne in Europa." },
+    { french: "visiter", german: "besichtigen, besuchen", exampleFrench: "Ils vont visiter Paris.", exampleGerman: "Sie werden Paris besuchen." },
+    { french: "Je visite un musée.", german: "Ich besichtige ein Museum.", exampleFrench: "Demain, je visite un musée d'art.", exampleGerman: "Morgen besichtige ich ein Kunstmuseum." },
+    { french: "Tu visites Paris.", german: "Du besuchst Paris.", exampleFrench: "Quand tu visites Paris, regarde la Tour Eiffel.", exampleGerman: "Wenn du Paris besuchst, schau dir den Eiffelturm an." },
+    { french: "téléphoner (avec qn)", german: "(mit jdm) telefonieren", exampleFrench: "Je dois téléphoner avec ma mère.", exampleGerman: "Ich muss mit meiner Mutter telefonieren." }
+];

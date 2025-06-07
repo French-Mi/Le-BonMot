@@ -1,0 +1,28 @@
+// js/data/a1/postkarte.js
+export const postkarteVocab = [
+    { french: "cher / chère", german: "Liebe/r (Briefanfang)", exampleFrench: "Cher Paul, comment vas-tu?", exampleGerman: "Lieber Paul, wie geht es dir?" },
+    { french: "le jour", german: "der Tag (als Zähleinheit)", exampleFrench: "Il y a sept jours dans une semaine.", exampleGerman: "Es gibt sieben Tage in einer Woche." },
+    { french: "la journée", german: "der Tag (in seinem Ablauf)", exampleFrench: "J'ai passé une bonne journée.", exampleGerman: "Ich hatte einen guten Tag." },
+    { french: "le week-end", german: "das Wochenende", exampleFrench: "Que fais-tu ce week-end?", exampleGerman: "Was machst du dieses Wochenende?" },
+    { french: "la semaine", german: "die Woche", exampleFrench: "La semaine prochaine, je pars en vacances.", exampleGerman: "Nächste Woche fahre ich in den Urlaub." },
+    { french: "aujourd’hui", german: "heute", exampleFrench: "Aujourd’hui, c'est lundi.", exampleGerman: "Heute ist Montag." },
+    { french: "demain", german: "morgen", exampleFrench: "Demain, nous allons au cinéma.", exampleGerman: "Morgen gehen wir ins Kino." },
+    { french: "le programme", german: "das Programm", exampleFrench: "Quel est le programme pour ce soir?", exampleGerman: "Was ist das Programm für heute Abend?" },
+    { french: "rester", german: "bleiben", exampleFrench: "Je préfère rester à la maison.", exampleGerman: "Ich bleibe lieber zu Hause." },
+    { french: "passer", german: "verbringen; vorbeigehen", exampleFrench: "Je vais passer te voir demain.", exampleGerman: "Ich komme morgen bei dir vorbei." },
+    { french: "rentrer", german: "nach Hause fahren / gehen", exampleFrench: "Il est tard, je dois rentrer.", exampleGerman: "Es ist spät, ich muss nach Hause gehen." },
+    { french: "déjà", german: "bereits, schon", exampleFrench: "Tu as déjà mangé?", exampleGerman: "Hast du schon gegessen?" },
+    { french: "J’adore!", german: "Ich liebe es!", exampleFrench: "Ce gâteau? J’adore!", exampleGerman: "Dieser Kuchen? Ich liebe ihn!" },
+    { french: "C’est nul! / C’est bête!", german: "Das ist doof!", exampleFrench: "Mon téléphone ne marche plus, c’est nul!", exampleGerman: "Mein Telefon funktioniert nicht mehr, das ist doof!" },
+    { french: "l’hôtel", german: "das Hotel", exampleFrench: "Nous restons dans un petit hôtel.", exampleGerman: "Wir übernachten in einem kleinen Hotel." },
+    { french: "super", german: "super", exampleFrench: "Tes vacances étaient super?", exampleGerman: "War dein Urlaub super?" },
+    { french: "génial,e", german: "genial", exampleFrench: "Cette idée est géniale!", exampleGerman: "Diese Idee ist genial!" },
+    { french: "avec", german: "mit", exampleFrench: "Je vais au parc avec mes amis.", exampleGerman: "Ich gehe mit meinen Freunden in den Park." },
+    { french: "près de", german: "nahe von", exampleFrench: "La boulangerie est près de chez moi.", exampleGerman: "Die Bäckerei ist in meiner Nähe." },
+    { french: "même", german: "hier: sogar", exampleFrench: "Il a mangé tout le gâteau, même ma part!", exampleGerman: "Er hat den ganzen Kuchen gegessen, sogar meinen Teil!" },
+    { french: "alors", german: "also, deshalb", exampleFrench: "Il pleut, alors je prends mon parapluie.", exampleGerman: "Es regnet, also nehme ich meinen Schirm." },
+    { french: "longtemps", german: "lange", exampleFrench: "J'ai attendu longtemps.", exampleGerman: "Ich habe lange gewartet." },
+    { french: "devant", german: "vor", exampleFrench: "Le chat est assis devant la porte.", exampleGerman: "Die Katze sitzt vor der Tür." },
+    { french: "normalement", german: "normalerweise", exampleFrench: "Normalement, je me lève à sept heures.", exampleGerman: "Normalerweise stehe ich um sieben Uhr auf." },
+    { french: "la ville", german: "die Stadt", exampleFrench: "J'habite dans une grande ville.", exampleGerman: "Ich wohne in einer großen Stadt." }
+];

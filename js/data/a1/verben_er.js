@@ -1,0 +1,25 @@
+// js/data/a1/verben_er.js
+export const verbenErVocab = [
+    { french: "travailler", german: "arbeiten", exampleFrench: "Je dois travailler demain.", exampleGerman: "Ich muss morgen arbeiten." },
+    { french: "manger", german: "essen", exampleFrench: "Nous allons manger une pizza.", exampleGerman: "Wir werden eine Pizza essen." },
+    { french: "regarder", german: "(an)schauen", exampleFrench: "Tu aimes regarder des films ?", exampleGerman: "Schaust du gerne Filme an?" },
+    { french: "écouter", german: "hören", exampleFrench: "Elle écoute de la musique.", exampleGerman: "Sie hört Musik." },
+    { french: "visiter", german: "besichtigen", exampleFrench: "Ils visitent le musée.", exampleGerman: "Sie besichtigen das Museum." },
+    { french: "parler", german: "sprechen", exampleFrench: "Vous parlez français ?", exampleGerman: "Sprechen Sie Französisch?" },
+    { french: "aimer", german: "lieben, mögen", exampleFrench: "J'aime le chocolat.", exampleGerman: "Ich liebe Schokolade." },
+    { french: "adorer", german: "sehr mögen", exampleFrench: "Elle adore danser.", exampleGerman: "Sie liebt es zu tanzen." },
+    { french: "acheter", german: "(ein)kaufen", exampleFrench: "Je vais acheter du pain.", exampleGerman: "Ich werde Brot kaufen." },
+    { french: "préférer", german: "bevorzugen", exampleFrench: "Tu préfères le thé ou le café ?", exampleGerman: "Bevorzugst du Tee oder Kaffee?" },
+    { french: "habiter", german: "wohnen", exampleFrench: "J'habite à Paris.", exampleGerman: "Ich wohne in Paris." },
+    { french: "danser", german: "tanzen", exampleFrench: "Nous aimons danser ensemble.", exampleGerman: "Wir tanzen gerne zusammen." },
+    { french: "gagner", german: "gewinnen", exampleFrench: "Il espère gagner le match.", exampleGerman: "Er hofft, das Spiel zu gewinnen." },
+    { french: "décider", german: "entscheiden", exampleFrench: "Tu dois décider maintenant.", exampleGerman: "Du musst jetzt entscheiden." },
+    { french: "chanter", german: "singen", exampleFrench: "Elle chante très bien.", exampleGerman: "Sie singt sehr gut." },
+    { french: "expliquer", german: "erklären", exampleFrench: "Le professeur explique la leçon.", exampleGerman: "Der Lehrer erklärt die Lektion." },
+    { french: "penser (à qc)", german: "denken (an etw.)", exampleFrench: "Je pense à toi.", exampleGerman: "Ich denke an dich." },
+    { french: "raconter", german: "erzählen", exampleFrench: "Il raconte une histoire.", exampleGerman: "Er erzählt eine Geschichte." },
+    { french: "préparer", german: "vorbereiten", exampleFrench: "Nous préparons le dîner.", exampleGerman: "Wir bereiten das Abendessen vor." },
+    { french: "oublier", german: "vergessen", exampleFrench: "N'oublie pas tes clés!", exampleGerman: "Vergiss deine Schlüssel nicht!" },
+    { french: "trouver", german: "finden", exampleFrench: "J'ai trouvé mon téléphone.", exampleGerman: "Ich habe mein Telefon gefunden." },
+    { french: "nager", german: "schwimmen", exampleFrench: "J'aime nager dans la mer.", exampleGerman: "Ich schwimme gerne im Meer." }
+];

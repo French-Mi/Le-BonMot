@@ -1,0 +1,28 @@
+// js/data/a1/zukunft.js
+export const zukunftVocab = [
+    { french: "maintenant", german: "jetzt", exampleFrench: "Je dois partir maintenant.", exampleGerman: "Ich muss jetzt gehen." },
+    { french: "demain", german: "morgen", exampleFrench: "Demain, il fera beau.", exampleGerman: "Morgen wird es schön sein." },
+    { french: "après-demain", german: "übermorgen", exampleFrench: "Après-demain, nous avons un examen.", exampleGerman: "Übermorgen haben wir eine Prüfung." },
+    { french: "le lendemain", german: "der folgende Tag", exampleFrench: "Le lendemain, il a neigé.", exampleGerman: "Am folgenden Tag schneite es." },
+    { french: "le coca", german: "die Cola", exampleFrench: "Je voudrais un coca, s'il vous plaît.", exampleGerman: "Ich hätte gerne eine Cola, bitte." },
+    { french: "le bureau", german: "das Büro", exampleFrench: "Mon père travaille dans un bureau.", exampleGerman: "Mein Vater arbeitet in einem Büro." }, 
+    { french: "le matin", german: "der Morgen", exampleFrench: "Le matin, je me lève tôt.", exampleGerman: "Morgens stehe ich früh auf." },
+    { french: "faire les courses", german: "einkaufen gehen (Lebensmittel)", exampleFrench: "Samedi matin, je vais faire les courses.", exampleGerman: "Samstagmorgen gehe ich einkaufen." },
+    { french: "faire le ménage", german: "putzen", exampleFrench: "Aujourd'hui, je dois faire le ménage.", exampleGerman: "Heute muss ich putzen." },
+    { french: "ranger qc", german: "etw. aufräumen", exampleFrench: "Peux-tu ranger tes jouets?", exampleGerman: "Kannst du dein Spielzeug aufräumen?" },
+    { french: "le/la collègue", german: "der/ die Kollegin", exampleFrench: "Mon collègue est très sympa.", exampleGerman: "Mein Kollege ist sehr nett." },
+    { french: "y", german: "dort, dorthin", exampleFrench: "J'y vais demain.", exampleGerman: "Ich gehe morgen dorthin." },
+    { french: "partir", german: "losgehen", exampleFrench: "Nous allons partir en vacances.", exampleGerman: "Wir werden in den Urlaub fahren." },
+    { french: "préparer qc", german: "etw. vorbereiten", exampleFrench: "Je dois préparer ma valise.", exampleGerman: "Ich muss meinen Koffer vorbereiten." },
+    { french: "jouer aux cartes", german: "Karten spielen", exampleFrench: "Le soir, nous aimons jouer aux cartes.", exampleGerman: "Abends spielen wir gerne Karten." },
+    { french: "le jeu", german: "das Spiel", exampleFrench: "C'est un jeu amusant.", exampleGerman: "Das ist ein lustiges Spiel." },
+    { french: "d’abord", german: "zuerst, zunächst", exampleFrench: "D’abord, lave-toi les mains.", exampleGerman: "Wasch dir zuerst die Hände." },
+    { french: "après", german: "danach", exampleFrench: "Après l'école, je fais mes devoirs.", exampleGerman: "Nach der Schule mache ich meine Hausaufgaben." },
+    { french: "ensuite", german: "anschließend", exampleFrench: "Nous allons au restaurant et ensuite au cinéma.", exampleGerman: "Wir gehen ins Restaurant und anschließend ins Kino." },
+    { french: "puis", german: "dann", exampleFrench: "Je mange, puis je regarde la télé.", exampleGerman: "Ich esse, dann schaue ich fern." },
+    { french: "enfin", german: "schlussendlich", exampleFrench: "Enfin, les vacances commencent!", exampleGerman: "Endlich beginnen die Ferien!" },
+    { french: "un repas de famille", german: "ein Familienessen", exampleFrench: "Dimanche, il y a un repas de famille.", exampleGerman: "Sonntag gibt es ein Familienessen." },
+    { french: "avoir l’air sympa", german: "sympathisch wirken", exampleFrench: "Ton nouveau professeur a l’air sympa.", exampleGerman: "Dein neuer Lehrer wirkt sympathisch." },
+    { french: "déjà", german: "schon, bereits", exampleFrench: "J'ai déjà vu ce film.", exampleGerman: "Ich habe diesen Film schon gesehen." },
+    { french: "parce que", german: "weil", exampleFrench: "Je suis fatigué parce que j'ai mal dormi.", exampleGerman: "Ich bin müde, weil ich schlecht geschlafen habe." }
+];

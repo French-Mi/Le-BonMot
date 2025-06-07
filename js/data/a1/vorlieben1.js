@@ -1,0 +1,21 @@
+export const vorlieben1Vocab = [
+    { french: "aimer qc", german: "etw. mögen, lieben", exampleFrench: "J'aime le chocolat.", exampleGerman: "Ich mag Schokolade." },
+    { french: "J’aime", german: "Ich mag / Ich liebe", exampleFrench: "J’aime la musique pop.", exampleGerman: "Ich mag Popmusik." },
+    { french: "détester qc", german: "etw. hassen", exampleFrench: "Elle déteste les araignées.", exampleGerman: "Sie hasst Spinnen." },
+    { french: "mais", german: "aber", exampleFrench: "Il est petit, mais fort.", exampleGerman: "Er ist klein, aber stark." },
+    { french: "aussi", german: "auch", exampleFrench: "Tu aimes le sport? Moi aussi!", exampleGerman: "Magst du Sport? Ich auch!" },
+    { french: "et", german: "und", exampleFrench: "J'ai un frère et une sœur.", exampleGerman: "Ich habe einen Bruder und eine Schwester." },
+    { french: "ou", german: "oder", exampleFrench: "Tu veux du thé ou du café?", exampleGerman: "Möchtest du Tee oder Kaffee?" },
+    { french: "beaucoup", german: "sehr, viel", exampleFrench: "Merci beaucoup!", exampleGerman: "Vielen Dank!" },
+    { french: "un peu", german: "ein bisschen", exampleFrench: "Je parle un peu français.", exampleGerman: "Ich spreche ein bisschen Französisch." },
+    { french: "Qu’est-ce que …?", german: "Was …? (Fragepronomen)", exampleFrench: "Qu’est-ce que c'est?", exampleGerman: "Was ist das?" },
+    { french: "Qu’est-ce que tu aimes?", german: "Was magst du?", exampleFrench: "Qu’est-ce que tu aimes faire le week-end?", exampleGerman: "Was machst du gerne am Wochenende?" },
+    { french: "Tu aimes quelle musique?", german: "Welche Musik magst du?", exampleFrench: "Tu aimes quelle musique pour danser?", exampleGerman: "Welche Musik magst du zum Tanzen?" },
+    { french: "la musique", german: "die Musik", exampleFrench: "J'écoute de la musique classique.", exampleGerman: "Ich höre klassische Musik." },
+    { french: "Tu aimes quel sport?", german: "Welchen Sport magst du?", exampleFrench: "Tu aimes quel sport en hiver?", exampleGerman: "Welchen Sport magst du im Winter?" },
+    { french: "le sport", german: "der Sport", exampleFrench: "Le sport est bon pour la santé.", exampleGerman: "Sport ist gut für die Gesundheit." },
+    { french: "le garçon", german: "der Junge", exampleFrench: "Le garçon joue au foot.", exampleGerman: "Der Junge spielt Fußball." },
+    { french: "la fille", german: "das Mädchen", exampleFrench: "La fille lit un livre.", exampleGerman: "Das Mädchen liest ein Buch." },
+    { french: "l’enfant", german: "das Kind", exampleFrench: "L’enfant mange une pomme.", exampleGerman: "Das Kind isst einen Apfel." },
+    { french: "l’horloge", german: "die Uhr", exampleFrench: "L’horloge sonne midi.", exampleGerman: "Die Uhr schlägt Mittag." }
+];

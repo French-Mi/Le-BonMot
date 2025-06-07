@@ -1,0 +1,21 @@
+export const laenderVocab = [
+    { french: "je suis à …", german: "ich bin in … (+Stadt)", exampleFrench: "Je suis à Paris pour les vacances.", exampleGerman: "Ich bin in Paris im Urlaub." },
+    { french: "je suis de/d’ …", german: "ich bin aus… (+Stadt)", exampleFrench: "Je suis de Berlin.", exampleGerman: "Ich bin aus Berlin." },
+    { french: "Tu es où?", german: "Wo bist du?", exampleFrench: "Tu es où maintenant? Au parc?", exampleGerman: "Wo bist du jetzt? Im Park?" },
+    { french: "Vous êtes où?", german: "Wo seid ihr?", exampleFrench: "Vous êtes où? Nous attendons.", exampleGerman: "Wo seid ihr? Wir warten." },
+    { french: "Tu es d’où?", german: "Woher kommst du?", exampleFrench: "Tu es d’où? De France?", exampleGerman: "Woher kommst du? Aus Frankreich?" },
+    { french: "Vous êtes d’où?", german: "Woher kommt ihr / kommen Sie?", exampleFrench: "Vous êtes d’où, Madame?", exampleGerman: "Woher kommen Sie, meine Dame?" },
+    { french: "la France", german: "Frankreich", exampleFrench: "La France est un beau pays.", exampleGerman: "Frankreich ist ein schönes Land." },
+    { french: "l’Allemagne", german: "Deutschland", exampleFrench: "L’Allemagne est à côté de la France.", exampleGerman: "Deutschland ist neben Frankreich." },
+    { french: "l’Italie", german: "Italien", exampleFrench: "J'aime la cuisine de l’Italie.", exampleGerman: "Ich mag die Küche Italiens." },
+    { french: "l’Angleterre", german: "England", exampleFrench: "Londres est en Angleterre.", exampleGerman: "London ist in England." },
+    { french: "l’Espagne", german: "Spanien", exampleFrench: "Il fait chaud en Espagne.", exampleGerman: "Es ist heiß in Spanien." },
+    { french: "la Suisse", german: "Schweiz", exampleFrench: "La Suisse a beaucoup de montagnes.", exampleGerman: "Die Schweiz hat viele Berge." },
+    { french: "la Turquie", german: "Türkei", exampleFrench: "Istanbul est une grande ville en Turquie.", exampleGerman: "Istanbul ist eine große Stadt in der Türkei." },
+    { french: "la Grèce", german: "Griechenland", exampleFrench: "La Grèce a de belles îles.", exampleGerman: "Griechenland hat schöne Inseln." },
+    { french: "le Portugal", german: "Portugal", exampleFrench: "Lisbonne est la capitale du Portugal.", exampleGerman: "Lissabon ist die Hauptstadt von Portugal." },
+    { french: "le Maroc", german: "Marokko", exampleFrench: "Le Maroc est en Afrique du Nord.", exampleGerman: "Marokko ist in Nordafrika." },
+    { french: "le Danemark", german: "Dänemark", exampleFrench: "Copenhague est au Danemark.", exampleGerman: "Kopenhagen ist in Dänemark." },
+    { french: "les Pays-Bas", german: "Niederlande", exampleFrench: "Amsterdam est aux Pays-Bas.", exampleGerman: "Amsterdam ist in den Niederlanden." },
+    { french: "les États-Unis", german: "Vereinigte Staaten", exampleFrench: "New York est aux États-Unis.", exampleGerman: "New York ist in den Vereinigten Staaten." }
+];

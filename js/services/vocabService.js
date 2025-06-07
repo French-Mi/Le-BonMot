@@ -1,12 +1,7 @@
 // js/services/vocabService.js
-
-// NEU: Importiere die Vokabeldaten aus den neuen Modulen
 import { structuredVocabData } from '../data/index.js';
 
-// lektuerenData kommt weiterhin aus dem globalen Skript in index.html
+// Die Funktion gibt jetzt einfach das komplett zusammengesetzte Objekt zurück.
 export function getMergedVocabData() {
-    return {
-        ...structuredVocabData, // Dies kommt jetzt aus dem Import
-        ...(typeof lektuerenData !== 'undefined' ? lektuerenData : {})
-    };
+    return structuredVocabData;
 }

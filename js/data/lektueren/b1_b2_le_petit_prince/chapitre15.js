@@ -1,0 +1,21 @@
+export const chapitre15Vocab = [
+    { "french": "autour de qn/qc", "german": "um jdn/etw. herum", "exampleFrench": "Il n'y a rien à voir autour de sa planète.", "exampleGerman": "Es gibt nichts um seinen Planeten herum zu sehen." },
+    { "french": "le coup d’œil", "german": "der Blick; das Augenmaß", "exampleFrench": "Le géographe jeta un coup d'œil sur sa planète.", "exampleGerman": "Der Geograf warf einen Blick auf seinen Planeten." },
+    { "french": "jeter un coup d’œil", "german": "einen Blick werfen", "exampleFrench": "Laisse-moi jeter un coup d'œil à ton dessin.", "exampleGerman": "Lass mich einen Blick auf deine Zeichnung werfen." },
+    { "french": "s’émouvoir", "german": "sich über etw. aufregen", "exampleFrench": "Le géographe ne peut pas s'émouvoir pour une fleur.", "exampleGerman": "Der Geograf kann sich nicht wegen einer Blume aufregen." },
+    { "french": "éphémère (adj.)", "german": "von kurzer Dauer, flüchtig", "exampleFrench": "La beauté d'une fleur est éphémère.", "exampleGerman": "Die Schönheit einer Blume ist von kurzer Dauer." },
+    { "french": "une enquête", "german": "eine Untersuchung; eine Umfrage", "exampleFrench": "Le géographe note les résultats de l'enquête de l'explorateur.", "exampleGerman": "Der Geograf notiert die Ergebnisse der Untersuchung des Forschers." },
+    { "french": "exiger qc", "german": "etw. verlangen, fordern", "exampleFrench": "Le géographe exige des preuves de l'explorateur.", "exampleGerman": "Der Geograf verlangt Beweise vom Forscher." },
+    { "french": "flâner", "german": "schlendern, herumtrödeln", "exampleFrench": "Un explorateur ne doit pas flâner.", "exampleGerman": "Ein Forscher darf nicht herumtrödeln." },
+    { "french": "fournir qc", "german": "etw. liefern, vorlegen", "exampleFrench": "L'explorateur doit fournir des preuves.", "exampleGerman": "Der Forscher muss Beweise vorlegen." },
+    { "french": "un ivrogne", "german": "ein Säufer", "exampleFrench": "Un ivrogne verrait double.", "exampleGerman": "Ein Säufer würde doppelt sehen." },
+    { "french": "paraître", "german": "wirken", "exampleFrench": "La fleur paraît moins importante que les montagnes.", "exampleGerman": "Die Blume wirkt weniger wichtig als die Berge." },
+    { "french": "une preuve", "german": "ein Beweis(stück)", "exampleFrench": "La découverte d'une grande montagne est une preuve.", "exampleGerman": "Die Entdeckung eines großen Berges ist ein Beweis." },
+    { "french": "la réputation", "german": "der Ruf", "exampleFrench": "La réputation d'un explorateur est importante.", "exampleGerman": "Der Ruf eines Forschers ist wichtig." },
+    { "french": "le savant, la savante", "german": "der Wissenschaftler, die Wissenschaftlerin", "exampleFrench": "Le géographe est un savant qui connaît beaucoup de choses.", "exampleGerman": "Der Geograf ist ein Wissenschaftler, der viele Dinge weiß." },
+    { "french": "songer à qn/qc", "german": "an jdn/ etw. denken", "exampleFrench": "Le petit prince songea à sa fleur.", "exampleGerman": "Der kleine Prinz dachte an seine Blume." },
+    { "french": "soudain", "german": "plötzlich; unerwartet", "exampleFrench": "Soudain, il se sentit triste.", "exampleGerman": "Plötzlich fühlte er sich traurig." },
+    { "french": "Tiens!", "german": "Hier!", "exampleFrench": "Tiens! Voilà un explorateur !", "exampleGerman": "Hier! Da ist ein Forscher!" },
+    { "french": "tenir", "german": "halten", "exampleFrench": "Le géographe doit tenir un registre.", "exampleGerman": "Der Geograf muss ein Register führen." },
+    { "french": "vaste", "german": "groß, weit, ausgedehnt", "exampleFrench": "La Terre est une planète très vaste.", "exampleGerman": "Die Erde ist ein sehr großer Planet." }
+];

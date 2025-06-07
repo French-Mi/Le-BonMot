@@ -1,0 +1,19 @@
+export const chapitre3Vocab = [
+    { "french": "avec mélancolie", "german": "schwermütig, wehmütig", "exampleFrench": "Il regardait le ciel avec mélancolie.", "exampleGerman": "Er blickte schwermütig zum Himmel." },
+    { "french": "ce sont des mots prononcés par hasard", "german": "es waren zufällig gesprochene Worte", "exampleFrench": "Il comprit que ce sont des mots prononcés par hasard qui révèlent les secrets.", "exampleGerman": "Er verstand, dass es zufällig gesprochene Worte sind, die Geheimnisse enthüllen." },
+    { "french": "choquer", "german": "schockieren, befremden", "exampleFrench": "Ses paroles ont pu me choquer au début.", "exampleGerman": "Seine Worte konnten mich anfangs schockieren." },
+    { "french": "droit devant soi", "german": "geradeaus", "exampleFrench": "On ne va pas bien loin en allant toujours droit devant soi.", "exampleGerman": "Man kommt nicht sehr weit, wenn man immer nur geradeaus geht." },
+    { "french": "en savoir plus long", "german": "mehr darüber erfahren", "exampleFrench": "Le pilote voulait en savoir plus long sur la planète du petit prince.", "exampleGerman": "Der Pilot wollte mehr über den Planeten des kleinen Prinzen erfahren." },
+    { "french": "entrevoir", "german": "erahnen, flüchtig erkennen", "exampleFrench": "Il a pu entrevoir la vérité dans ses paroles.", "exampleGerman": "Er konnte die Wahrheit in seinen Worten erahnen." },
+    { "french": "être intrigué par", "german": "fasziniert/neugierig sein von", "exampleFrench": "J'étais intrigué par son silence mystérieux.", "exampleGerman": "Ich war fasziniert von seinem geheimnisvollen Schweigen." },
+    { "french": "gravement", "german": "ernst, mit ernster Miene", "exampleFrench": "Il répondit gravement à ma question.", "exampleGerman": "Er antwortete ernst auf meine Frage." },
+    { "french": "hocher la tête", "german": "den Kopf nicken", "exampleFrench": "Il hocha la tête en signe d'approbation.", "exampleGerman": "Er nickte mit dem Kopf als Zeichen der Zustimmung." },
+    { "french": "la contemplation", "german": "die Betrachtung", "exampleFrench": "Il aimait la contemplation des couchers de soleil.", "exampleGerman": "Er liebte die Betrachtung der Sonnenuntergänge." },
+    { "french": "méditatif,-ive", "german": "nachdenklich", "exampleFrench": "Il est devenu méditatif en pensant à sa planète.", "exampleGerman": "Er wurde nachdenklich, als er an seinen Planeten dachte." },
+    { "french": "prendre au sérieux", "german": "ernst nehmen", "exampleFrench": "Il est important de prendre au sérieux les questions des enfants.", "exampleGerman": "Es ist wichtig, die Fragen der Kinder ernst zu nehmen." },
+    { "french": "s'efforcer de", "german": "sich bemühen zu", "exampleFrench": "Il s'efforçait de comprendre d'où venait le petit prince.", "exampleGerman": "Er bemühte sich zu verstehen, woher der kleine Prinz kam." },
+    { "french": "s'enfoncer dans une rêverie", "german": "in Träumerei versinken", "exampleFrench": "Il s'enfonça dans une rêverie qui dura longtemps.", "exampleGerman": "Er versank in einer Träumerei, die lange andauerte." },
+    { "french": "se plonger dans", "german": "sich vertiefen in", "exampleFrench": "Il aime se plonger dans la contemplation de son mouton.", "exampleGerman": "Er liebt es, sich in die Betrachtung seines Schafes zu vertiefen." },
+    { "french": "une demi-confidence", "german": "eine halbe Andeutung", "exampleFrench": "Le petit prince a fait une demi-confidence sur sa planète.", "exampleGerman": "Der kleine Prinz machte eine halbe Andeutung über seinen Planeten." },
+    { "french": "une lueur", "german": "ein Schimmer, ein Lichtblick", "exampleFrench": "J'aperçus une lueur dans ses yeux.", "exampleGerman": "Ich sah einen Schimmer in seinen Augen." }
+];

@@ -1,0 +1,21 @@
+export const chapitre13Vocab = [
+    { "french": "une abeille", "german": "eine Biene", "exampleFrench": "L'abeille produit du miel.", "exampleGerman": "Die Biene produziert Honig." },
+    { "french": "la baliverne", "german": "der Unsinn", "exampleFrench": "Ne raconte pas de balivernes !", "exampleGerman": "Erzähl keinen Unsinn!" },
+    { "french": "un bracelet", "german": "ein Armband", "exampleFrench": "Elle porte un joli bracelet en or.", "exampleGerman": "Sie trägt ein hübsches Goldarmband." },
+    { "french": "la cheville", "german": "der Knöchel", "exampleFrench": "Je me suis tordu la cheville en courant.", "exampleGerman": "Ich habe mir beim Laufen den Knöchel verstaucht." },
+    { "french": "épouvantable", "german": "schrecklich", "exampleFrench": "Le bruit était épouvantable.", "exampleGerman": "Der Lärm war schrecklich." },
+    { "french": "un/e fainéant/e", "german": "ein/e Faulenzer/in", "exampleFrench": "Ce businessman n'a pas le temps d'être un fainéant.", "exampleGerman": "Dieser Geschäftsmann hat keine Zeit, ein Faulenzer zu sein." },
+    { "french": "faire breveter qc", "german": "etw. patentieren lassen", "exampleFrench": "Il voulait faire breveter son idée de posséder les étoiles.", "exampleGerman": "Er wollte seine Idee, die Sterne zu besitzen, patentieren lassen." },
+    { "french": "flâner", "german": "bummeln, schlendern", "exampleFrench": "Il n'a jamais le temps de flâner.", "exampleGerman": "Er hat nie Zeit zum Bummeln." },
+    { "french": "gérer qc", "german": "leiten, führen, beherrschen", "exampleFrench": "L'homme d'affaires gère sa fortune.", "exampleGerman": "Der Geschäftsmann verwaltet sein Vermögen." },
+    { "french": "grincheux, grincheuse", "german": "mürrisch, griesgrämig", "exampleFrench": "Il est toujours grincheux le matin.", "exampleGerman": "Er ist morgens immer mürrisch." },
+    { "french": "un/e ivrogne", "german": "ein/e Säufer/in", "exampleFrench": "Il confond le petit prince avec un ivrogne.", "exampleGerman": "Er verwechselt den kleinen Prinzen mit einem Säufer." },
+    { "french": "une mouche", "german": "eine Fliege", "exampleFrench": "Une mouche volait dans la pièce.", "exampleGerman": "Eine Fliege flog im Zimmer." },
+    { "french": "un hanneton", "german": "ein Maikäfer", "exampleFrench": "Un hanneton est un insecte.", "exampleGerman": "Ein Maikäfer ist ein Insekt." },
+    { "french": "rêvasser", "german": "vor sich hin träumen", "exampleFrench": "Le petit prince aime rêvasser en regardant les étoiles.", "exampleGerman": "Der kleine Prinz träumt gerne vor sich hin, während er die Sterne betrachtet." },
+    { "french": "le rhumatisme", "german": "das Rheuma", "exampleFrench": "Mon grand-père souffre de rhumatisme.", "exampleGerman": "Mein Großvater leidet an Rheuma." },
+    { "french": "répandre qc", "german": "etw. verbreiten", "exampleFrench": "Il ne faut pas répandre de fausses rumeurs.", "exampleGerman": "Man sollte keine falschen Gerüchte verbreiten." },
+    { "french": "songer à qn/qc", "german": "an jdn/etw. denken", "exampleFrench": "Il ne songeait qu'à compter ses étoiles.", "exampleGerman": "Er dachte nur daran, seine Sterne zu zählen." },
+    { "french": "tellement", "german": "dermaßen, so", "exampleFrench": "Il y avait tellement d'étoiles qu'il ne pouvait pas les compter.", "exampleGerman": "Es gab so viele Sterne, dass er sie nicht zählen konnte." },
+    { "french": "le tiroir", "german": "die Schublade", "exampleFrench": "Mes chaussettes sont dans le premier tiroir.", "exampleGerman": "Meine Socken sind in der ersten Schublade." }
+];

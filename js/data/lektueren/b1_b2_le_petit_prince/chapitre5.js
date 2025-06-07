@@ -1,0 +1,23 @@
+export const chapitre5Vocab = [
+    { "french": "un arbuste", "german": "ein Busch, Strauch", "exampleFrench": "Les baobabs commencent par être de petits arbustes.", "exampleGerman": "Affenbrotbäume beginnen als kleine Sträucher." },
+    { "french": "s'astreindre à qc", "german": "sich zu etw. zwingen", "exampleFrench": "Il faut s'astreindre à arracher les baobabs régulièrement.", "exampleGerman": "Man muss sich dazu zwingen, die Affenbrotbäume regelmäßig auszureißen." },
+    { "french": "le baobab", "german": "der Affenbrotbaum", "exampleFrench": "Les graines de baobab sont terribles.", "exampleGerman": "Die Samen des Affenbrotbaums sind schrecklich." },
+    { "french": "la brindille", "german": "der Zweig", "exampleFrench": "Une brindille de rosier ou de radis est inoffensive.", "exampleGerman": "Ein Zweig eines Rosenstrauchs oder eines Radieschens ist harmlos." },
+    { "french": "le doute", "german": "der Zweifel", "exampleFrench": "J'ai eu un doute sur la nature de cette plante.", "exampleGerman": "Ich hatte einen Zweifel bezüglich der Art dieser Pflanze." },
+    { "french": "éclater", "german": "explodieren, platzen", "exampleFrench": "Les racines des baobabs peuvent faire éclater une planète.", "exampleGerman": "Die Wurzeln der Affenbrotbäume können einen Planeten zum Platzen bringen." },
+    { "french": "encombrer", "german": "verstopfen, blockieren", "exampleFrench": "Les baobabs peuvent encombrer toute la planète.", "exampleGerman": "Affenbrotbäume können den ganzen Planeten verstopfen." },
+    { "french": "s'égarer", "german": "sich verirren", "exampleFrench": "Si l'on s'égare dans un groupe d'astéroïdes, on risque gros.", "exampleGerman": "Wenn man sich in einer Gruppe von Asteroiden verirrt, riskiert man viel." },
+    { "french": "être infesté de", "german": "befallen sein von", "exampleFrench": "La planète du petit prince était infestée de graines de baobabs.", "exampleGerman": "Der Planet des kleinen Prinzen war von Affenbrotbaumsamen befallen." },
+    { "french": "frôler", "german": "streifen, knapp verfehlen", "exampleFrench": "J'ai frôlé le danger en dessinant les baobabs.", "exampleGerman": "Ich habe die Gefahr knapp verfehlt, als ich die Affenbrotbäume zeichnete." },
+    { "french": "guère", "german": "kaum", "exampleFrench": "On ne voit guère la différence au début.", "exampleGerman": "Man sieht anfangs kaum den Unterschied." },
+    { "french": "s'interroger", "german": "sich fragen", "exampleFrench": "Je m'interroge sur la raison de sa tristesse.", "exampleGerman": "Ich frage mich nach dem Grund seiner Traurigkeit." },
+    { "french": "le moraliste", "german": "der Moralprediger", "exampleFrench": "Je n'aime pas prendre le ton d'un moraliste.", "exampleGerman": "Ich mag es nicht, den Ton eines Moralpredigers anzunehmen." },
+    { "french": "un paresseux", "german": "ein Faulenzer", "exampleFrench": "Un paresseux avait négligé trois arbustes.", "exampleGerman": "Ein Faulenzer hatte drei Sträucher vernachlässigt." },
+    { "french": "perforer", "german": "durchbohren", "exampleFrench": "Les racines perforent le sol.", "exampleGerman": "Die Wurzeln durchbohren den Boden." },
+    { "french": "prendre fantaisie à", "german": "Lust bekommen auf", "exampleFrench": "Si l'on prend fantaisie à ne pas arracher les baobabs...", "exampleGerman": "Wenn man Lust darauf bekommt, die Affenbrotbäume nicht auszureißen..." },
+    { "french": "le radis", "german": "das Radieschen", "exampleFrench": "Une graine de radis est facile à reconnaître.", "exampleGerman": "Ein Samen eines Radieschens ist leicht zu erkennen." },
+    { "french": "le rosier", "german": "der Rosenstrauch", "exampleFrench": "Une graine de rosier donne une belle fleur.", "exampleGerman": "Ein Samen eines Rosenstrauchs bringt eine schöne Blume hervor." },
+    { "french": "timidement", "german": "schüchtern, zaghaft", "exampleFrench": "La brindille sort timidement de terre.", "exampleGerman": "Der Zweig kommt schüchtern aus der Erde." },
+    { "french": "le troupeau", "german": "die Herde", "exampleFrench": "Un troupeau d'éléphants ne viendrait pas à bout d'un seul baobab.", "exampleGerman": "Eine Herde Elefanten würde nicht mit einem einzigen Affenbrotbaum fertig werden." },
+    { "french": "veiller à", "german": "darauf achten, dass", "exampleFrench": "Il faut veiller à la discipline.", "exampleGerman": "Man muss darauf achten, dass Disziplin herrscht." }
+];

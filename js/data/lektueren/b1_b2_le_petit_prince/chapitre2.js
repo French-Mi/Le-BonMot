@@ -1,0 +1,23 @@
+export const chapitre2Vocab = [
+    { "french": "à mille milles de", "german": "tausende Meilen entfernt von", "exampleFrench": "L'aviateur s'est écrasé à mille milles de toute terre habitée.", "exampleGerman": "Der Flieger ist tausende Meilen entfernt von jeglichem bewohnten Land abgestürzt." },
+    { "french": "à peine", "german": "kaum", "exampleFrench": "Il pouvait à peine parler après l'accident.", "exampleGerman": "Er konnte nach dem Unfall kaum sprechen." },
+    { "french": "avoir hâte de", "german": "es kaum erwarten können", "exampleFrench": "J'ai hâte de partir en vacances.", "exampleGerman": "Ich kann es kaum erwarten, in den Urlaub zu fahren." },
+    { "french": "désobéir", "german": "nicht gehorchen", "exampleFrench": "L'enfant a été puni parce qu'il a désobéi à ses parents.", "exampleGerman": "Das Kind wurde bestraft, weil es seinen Eltern nicht gehorcht hat." },
+    { "french": "obéir", "german": "gehorchen", "exampleFrench": "Il faut obéir aux règles pour la sécurité de tous.", "exampleGerman": "Man muss den Regeln gehorchen für die Sicherheit aller." },
+    { "french": "être frappé par la foudre", "german": "wie vom Blitz getroffen sein", "exampleFrench": "Quand il a vu le petit prince, il a été frappé par la foudre.", "exampleGerman": "Als er den kleinen Prinzen sah, war er wie vom Blitz getroffen." },
+    { "french": "la foudre", "german": "der Blitz", "exampleFrench": "La foudre a frappé un arbre près de la maison.", "exampleGerman": "Der Blitz hat einen Baum in der Nähe des Hauses getroffen." },
+    { "french": "encombrant,e", "german": "sperrig, hinderlich", "exampleFrench": "Le bélier est trop encombrant pour la petite planète.", "exampleGerman": "Der Widder ist zu sperrig für den kleinen Planeten." },
+    { "french": "grave", "german": "ernst", "exampleFrench": "Il a eu un accident grave, mais il va mieux maintenant.", "exampleGerman": "Er hatte einen ernsten Unfall, aber es geht ihm jetzt besser." },
+    { "french": "griffonner", "german": "kritzeln", "exampleFrench": "Le petit prince lui demande de griffonner un mouton.", "exampleGerman": "Der kleine Prinz bittet ihn, ein Schaf zu kritzeln." },
+    { "french": "la caisse", "german": "die Kiste", "exampleFrench": "Le pilote dessine une caisse pour que le mouton soit à l'intérieur.", "exampleGerman": "Der Pilot zeichnet eine Kiste, damit das Schaf darin sein kann." },
+    { "french": "le lever du soleil", "german": "der Sonnenaufgang", "exampleFrench": "Nous nous sommes levés tôt pour admirer le lever du soleil.", "exampleGerman": "Wir sind früh aufgestanden, um den Sonnenaufgang zu bewundern." },
+    { "french": "le coucher du soleil", "german": "der Sonnenuntergang", "exampleFrench": "Le coucher du soleil sur la mer est magnifique.", "exampleGerman": "Der Sonnenuntergang über dem Meer ist wunderschön." },
+    { "french": "la panne", "german": "die Panne", "exampleFrench": "Le pilote doit réparer la panne de son avion.", "exampleGerman": "Der Pilot muss die Panne seines Flugzeugs reparieren." },
+    { "french": "le désert", "german": "die Wüste", "exampleFrench": "Le Sahara est un grand désert chaud.", "exampleGerman": "Die Sahara ist eine große heiße Wüste." },
+    { "french": "le mouton", "german": "das Schaf", "exampleFrench": "Le petit prince voulait un mouton.", "exampleGerman": "Der kleine Prinz wollte ein Schaf." },
+    { "french": "le mystère", "german": "das Geheimnis", "exampleFrench": "L'apparition du petit prince est un mystère.", "exampleGerman": "Das Erscheinen des kleinen Prinzen ist ein Geheimnis." },
+    { "french": "s’écrier", "german": "ausrufen", "exampleFrench": "« S'il vous plaît… dessine-moi un mouton ! » s'écria-t-il.", "exampleGerman": "„Bitte… zeichne mir ein Schaf!“, rief er aus." },
+    { "french": "s’endormir", "german": "einschlafen", "exampleFrench": "Après une longue journée, il est facile de s'endormir.", "exampleGerman": "Nach einem langen Tag ist es leicht einzuschlafen." },
+    { "french": "s’étonner", "german": "sich wundern", "exampleFrench": "Le pilote s'étonne de voir un petit garçon dans le désert.", "exampleGerman": "Der Pilot wundert sich, einen kleinen Jungen in der Wüste zu sehen." },
+    { "french": "s’illuminer", "german": "aufleuchten", "exampleFrench": "Son visage s'illumina quand il vit le dessin de la caisse.", "exampleGerman": "Sein Gesicht leuchtete auf, als er die Zeichnung der Kiste sah." }
+];

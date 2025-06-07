@@ -7,14 +7,11 @@ import { speakFrench } from '../services/speechService.js';
 import { startQuiz, startGlobalReview } from '../quiz/quizManager.js';
 import { calculateLevelInfo } from '../services/levelingService.js';
 import { achievements } from '../data/achievements.js';
-// KORRIGIERTER IMPORT: Importiert aus dem neuen notifications-Modul
 import { showMessage } from './notifications.js';
 
 // --- Konstanten & Hilfsfunktionen für die UI ---
 
 const speakerIconSvgContent = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="inline-block align-middle ml-1 mr-1 w-5 h-5 text-gray-500 hover:text-blue-600 cursor-pointer transition-colors"><path d="M13.5 4.06c0-1.336-1.616-2.005-2.56-1.06l-4.5 4.5H4.508c-1.141 0-2.318.664-2.66 1.905A9.76 9.76 0 001.5 12c0 .898.121 1.768.35 2.595.341 1.24 1.518 1.905 2.66 1.905H6.44l4.5 4.5c.945.945 2.56.276 2.56-1.06V4.06zM18.584 5.106a.75.75 0 011.06 0c3.808 3.807 3.808 9.98 0 13.788a.75.75 0 11-1.06-1.06 8.25 8.25 0 000-11.668.75.75 0 010-1.06z" /><path d="M15.932 7.757a.75.75 0 011.061 0 6 6 0 010 8.486.75.75 0 01-1.06-1.061 4.5 4.5 0 000-6.364.75.75 0 010-1.06z" /></svg>`;
-
-// Die Funktionen showMessage und showAchievementToast sind jetzt in notifications.js
 
 // --- Haupt-Render-Logik ---
 export function renderApp() {
@@ -98,11 +95,11 @@ function renderProgressTracker() {
             <div id="achievements-container">
                 <h4 class="text-md font-semibold text-slate-600 mb-3">Auszeichnungen</h4>
                 ${unlockedAchievementDetails.length > 0 ? `
-                    <div class="flex flex-wrap gap-4">
+                    <div class="flex flex-wrap gap-4 justify-center">
                         ${unlockedAchievementDetails.map(ach => `
-                            <div class="flex items-center p-2 bg-amber-100 rounded-lg border border-amber-300" title="${ach.description}">
-                                <i class="${ach.icon} text-amber-600 text-xl mr-2"></i>
-                                <span class="text-sm font-medium text-amber-800">${ach.title}</span>
+                            <div class="flex flex-col items-center text-center w-20" title="${ach.description}">
+                                <i class="${ach.icon} ${ach.color || 'text-gray-600'} text-4xl mb-1"></i>
+                                <span class="text-xs font-medium text-gray-700">${ach.title}</span>
                             </div>
                         `).join('')}
                     </div>
@@ -803,7 +800,6 @@ function createVocabCelebrationAnimationHTML() {
     return `<div class="vocab-celebration-container">${logoHtml}${confettiHtml}</div>`;
 }
 
-// Diese Funktion wurde in der letzten Runde aktualisiert, um die Auszeichnungslogik zu integrieren
 function renderQuizEndScreen() {
     const { currentQuizType, sureCount, roundCorrectCount, initialQuizWordCount, isReviewRound, roundIncorrectCount, learningProgress } = state;
     const { selectedLevel, incorrectlyAnsweredWordsGlobal, isGlobalReviewFlag } = state;

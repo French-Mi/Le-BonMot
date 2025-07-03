@@ -98,7 +98,6 @@ function navigateToContext(contextString) {
     <div class="topics-container">
         <RouterLink v-for="level in levelNames" :key="level" :to="`/level/${level}`" class="topic-card card">
             <h2>{{ level }}</h2>
-            <p>Vokabeln und Lektionen für das Niveau {{ level }}</p>
         </RouterLink>
     </div>
 
@@ -115,7 +114,7 @@ function navigateToContext(contextString) {
 <style scoped>
 .page-title { text-align: center; font-size: 2rem; margin: 2.5rem 0 1.5rem; color: var(--header-blue); }
 .topics-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
-.topic-card { padding: 1.5rem; text-decoration: none; color: inherit; transition: transform 0.2s, box-shadow 0.2s; }
+.topic-card { padding: 1.5rem; text-decoration: none; color: inherit; transition: transform 0.2s, box-shadow 0.2s; text-align: center; }
 .topic-card:hover { transform: translateY(-5px); box-shadow: 0 8px 15px rgba(0,0,0,0.08); }
 .topic-card h2 { margin-top: 0; color: var(--primary-blue); }
 .progress-summary-card { margin-bottom: 2rem; }

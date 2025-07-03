@@ -3,12 +3,16 @@ import { computed } from 'vue';
 import { useAppStore } from '@/stores/appStore';
 
 const appStore = useAppStore();
-const notification = computed(() => appStore.notification);
+
+// KORREKTUR: Wir sichern den Zugriff ab.
+// Falls 'appStore.notification' noch nicht da ist, wird ein Standard-Objekt verwendet.
+// Das verhindert den "Cannot read properties of undefined"-Fehler.
+const notification = computed(() => appStore.notification || { show: false });
 </script>
 
 <template>
   <transition name="toast-fade">
-    <div v-if="notification.show" class="notification-toast">
+    <div v-if="notification && notification.show" class="notification-toast">
       <i :class="[notification.icon, 'notification-icon']"></i>
       <div class="notification-content">
         <p class="font-bold">{{ notification.title }}</p>
@@ -30,19 +34,18 @@ const notification = computed(() => appStore.notification);
   align-items: center;
   padding: 1rem;
   z-index: 1000;
-  border-left: 5px solid #4ade80; /* Green accent */
+  border-left: 5px solid #4ade80;
   width: 320px;
 }
 .notification-icon {
   font-size: 2rem;
-  color: #fbbf24; /* Amber color */
+  color: #fbbf24;
   margin-right: 1rem;
 }
 .notification-content {
   color: #374151;
 }
 
-/* Vue Transition Styles */
 .toast-fade-enter-active,
 .toast-fade-leave-active {
   transition: all 0.5s ease;

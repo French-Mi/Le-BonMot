@@ -1,7 +1,9 @@
-
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import ChapterSelectionView from '../views/ChapterSelectionView.vue'
+import AvatarSelectionView from '../views/AvatarSelectionView.vue'
+import DashboardView from '../views/DashboardView.vue' // NEU: Diese Zeile muss vorhanden sein
+
 const ChapterMenuView = () => import('../views/ChapterMenuView.vue')
 const VocabListView = () => import('../views/VocabListView.vue')
 const LearnOptionsView = () => import('../views/LearnOptionsView.vue')
@@ -14,6 +16,16 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: HomeView
+    },
+    {
+      path: '/avatar-selection',
+      name: 'avatar-selection',
+      component: AvatarSelectionView
+    },
+    { // NEU: Dieser ganze Block muss vorhanden sein
+      path: '/dashboard',
+      name: 'dashboard',
+      component: DashboardView
     },
     {
       path: '/level/:levelName',
@@ -44,5 +56,4 @@ const router = createRouter({
   ]
 })
 
-// Diese Zeile ist entscheidend und hat wahrscheinlich gefehlt.
 export default router

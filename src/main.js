@@ -1,20 +1,24 @@
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
-
 import App from './App.vue'
 import router from './router'
-import { useAppStore } from './stores/appStore'
+import { useProgressStore } from './stores/progressStore'
+import { useUserProfileStore } from './stores/userProfileStore' // NEU
+import './assets/style.css'
 
-// Diese Zeile verursacht den Fehler, wenn die Datei nicht existiert.
-// Nachdem du sie erstellt hast, sollte es funktionieren.
-import './assets/main.css'
+const pinia = createPinia();
+const app = createApp(App);
 
-const app = createApp(App)
+app.use(pinia);
+app.use(router);
 
-app.use(createPinia())
-app.use(router)
+// Lade den Fortschritt, BEVOR die App gestartet wird
+const progressStore = useProgressStore();
+progressStore.loadProgress();
 
-app.mount('#app')
+// Lade das Benutzerprofil
+const userProfileStore = useUserProfileStore(); // NEU
+userProfileStore.loadProfile(); // NEU
 
-const appStore = useAppStore()
-appStore.loadProgress()
+// Starte die App erst, nachdem die Stores bereit sind
+app.mount('#app');

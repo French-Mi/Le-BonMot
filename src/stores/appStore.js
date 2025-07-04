@@ -1,3 +1,4 @@
+// src/stores/appStore.js
 import { defineStore } from 'pinia';
 import { allVocabData } from '@/data/index.js';
 import { achievements } from '@/data/achievements.js';
@@ -5,6 +6,7 @@ import { appRewards } from '@/data/rewards.js';
 import { getWeekNumber } from '@/utils/helpers.js';
 import { useProgressStore } from './progressStore';
 import { useUserProfileStore } from './userProfileStore';
+import { useDailySummaryStore } from './dailySummaryStore';
 
 export const useAppStore = defineStore('app', {
   state: () => ({
@@ -29,12 +31,14 @@ export const useAppStore = defineStore('app', {
     searchQuery: '',
     searchResults: [],
     searchPerformed: false,
+    chapterProgressCache: {},
+    currentRoundAnswers: [],
   }),
 
   getters: {
     levelNames: (state) => Object.keys(state.vocabDataGlobal),
     currentWord: (state) => state.quizWords[state.currentQuestionIndex] || null,
-    isQuizFinished: (state) => state.currentQuestionIndex >= state.initialQuizWordCount && state.initialQuizWordCount > 0,
+    isQuizFinished: (state) => state.initialQuizWordCount > 0 && state.currentQuestionIndex >= state.initialQuizWordCount,
     isChapterCompleted: () => (level, chapter, mainChapter = null) => {
       const progressStore = useProgressStore();
       const chapterKey = mainChapter ? `${mainChapter} - ${chapter}` : chapter;
@@ -60,7 +64,7 @@ export const useAppStore = defineStore('app', {
       const cutoffDate = new Date(now.setDate(now.getDate() - days));
       const recentErrors = errorHistory.filter(entry => new Date(entry.timestamp) >= cutoffDate);
       if (recentErrors.length === 0) {
-        this.showNotification({ title: 'Super!', description: `Keine Fehler in den letzten ${days} ${days > 1 ? 'Tagen' : 'Tag'} gefunden.`, icon: 'bi bi-check-circle-fill' });
+        this.showNotification({ title: 'Super!', description: `Keine Fehler in den letzten ${days > 1 ? 'Tagen' : 'Tag'} gefunden.`, icon: 'bi bi-check-circle-fill' });
         return false;
       }
       const uniqueWordsMap = new Map();
@@ -79,19 +83,51 @@ export const useAppStore = defineStore('app', {
     },
 
     startQuiz(quizType, options = {}) {
-        if(!options.words) this.markChapterAsStarted();
-        let wordsForQuiz = [];
         const isReview = Array.isArray(options.words);
+        if(!isReview) this.markChapterAsStarted();
+
+        let wordsForQuiz = [];
+
         if (isReview) {
             wordsForQuiz = [...options.words].sort(() => 0.5 - Math.random());
         } else {
-            let chapterVocab = this.selectedMainChapter ? this.vocabDataGlobal[this.selectedLevel][this.selectedMainChapter][this.selectedChapter] : this.vocabDataGlobal[this.selectedLevel][this.selectedChapter];
+            const chapterKey = `${this.selectedLevel} - ${this.selectedMainChapter || ''} - ${this.selectedChapter}`;
+            let chapterVocab = this.selectedMainChapter
+                ? this.vocabDataGlobal[this.selectedLevel][this.selectedMainChapter][this.selectedChapter]
+                : this.vocabDataGlobal[this.selectedLevel][this.selectedChapter];
+
             if (!Array.isArray(chapterVocab) || chapterVocab.length === 0) return false;
+
+            const totalVocabCount = chapterVocab.length;
             const vocabCount = options.vocabCount || 0;
-            const numVocs = vocabCount > 0 ? Math.min(vocabCount, chapterVocab.length) : chapterVocab.length;
-            wordsForQuiz = [...chapterVocab].sort(() => 0.5 - Math.random()).slice(0, numVocs);
+
+            if (vocabCount === 0) {
+                wordsForQuiz = [...chapterVocab].sort(() => 0.5 - Math.random());
+                if(this.chapterProgressCache[chapterKey]) {
+                    this.chapterProgressCache[chapterKey].currentIndex = 0;
+                }
+            } else {
+                if (!this.chapterProgressCache[chapterKey]) {
+                    this.chapterProgressCache[chapterKey] = {
+                        shuffledVocab: [...chapterVocab].sort(() => 0.5 - Math.random()),
+                        currentIndex: 0,
+                    };
+                }
+                const cache = this.chapterProgressCache[chapterKey];
+                if (cache.currentIndex >= totalVocabCount) {
+                    cache.currentIndex = 0;
+                    cache.shuffledVocab.sort(() => 0.5 - Math.random());
+                }
+                const startIndex = cache.currentIndex;
+                const endIndex = startIndex + vocabCount;
+                wordsForQuiz = cache.shuffledVocab.slice(startIndex, endIndex);
+                this.chapterProgressCache[chapterKey].currentIndex = endIndex;
+            }
         }
+
         if (wordsForQuiz.length === 0) return false;
+
+        this.currentRoundAnswers = [];
         this.$patch({ quizWords: wordsForQuiz, currentQuizType: quizType, initialQuizWordCount: wordsForQuiz.length, isReviewRound: isReview, currentQuestionIndex: 0, roundCorrectCount: 0, roundIncorrectCount: 0, sureCount: 0, unsureCount: 0, noIdeaCount: 0, incorrectlyAnsweredWordsGlobal: [] });
         this.checkAndAwardAchievements('QUIZ_START');
         return true;
@@ -104,10 +140,31 @@ export const useAppStore = defineStore('app', {
       localStorage.setItem('leBonMotIncorrectWords', JSON.stringify(incorrectWords));
     },
 
-    nextQuestion() { if (!this.isQuizFinished) this.currentQuestionIndex++; },
+    logAnswer(isCorrect, userInput, correctAnswer) {
+        if (!this.currentWord) return;
+        this.currentRoundAnswers.push({
+            question: JSON.parse(JSON.stringify(this.currentWord)),
+            isCorrect,
+            userInput: userInput || '',
+            correctAnswer: isCorrect ? '' : correctAnswer
+        });
+    },
+
+    nextQuestion() {
+      if (this.currentQuestionIndex < this.initialQuizWordCount) {
+          this.currentQuestionIndex++;
+      }
+      if (this.isQuizFinished) {
+        this.completeLearningSession();
+      }
+    },
 
     handleFlashcardFeedback(feedback) {
-        if (feedback === 'sure') { this.sureCount++; } else {
+        if (this.isQuizFinished || !this.currentWord) return;
+        this.logAnswer(feedback === 'sure', feedback, this.currentQuizDirection === 'frToDe' ? this.currentWord.german : this.currentWord.french);
+
+        if (feedback === 'sure') { this.sureCount++; }
+        else {
             if (feedback === 'unsure') this.unsureCount++;
             if (feedback === 'noIdea') this.noIdeaCount++;
             if (!this.incorrectlyAnsweredWordsGlobal.some((v) => v.french === this.currentWord.french)) {
@@ -122,6 +179,9 @@ export const useAppStore = defineStore('app', {
       const normalizeFunc = (answer) => String(answer).toLowerCase().trim().replace(/[`´’']/g, "'").replace(/[.,/#!$%^&*;:{}=\-_`~()"?¡¿!]/g, '').replace(/\s+/g, ' ').trim();
       const correctOptions = (this.currentQuizDirection === 'frToDe' ? this.currentWord.german : this.currentWord.french).split(/[;/]\s*/);
       const isCorrect = correctOptions.some((opt) => normalizeFunc(opt) === normalizeFunc(userAnswer));
+
+      this.logAnswer(isCorrect, userAnswer, this.currentQuizDirection === 'frToDe' ? this.currentWord.german : this.currentWord.french);
+
       if (isCorrect) {
         this.roundCorrectCount++;
       } else {
@@ -138,29 +198,54 @@ export const useAppStore = defineStore('app', {
         this.roundCorrectCount++;
         this.roundIncorrectCount--;
         this.incorrectlyAnsweredWordsGlobal.pop();
+        if (this.currentRoundAnswers.length > 0) {
+            this.currentRoundAnswers[this.currentRoundAnswers.length - 1].isCorrect = true;
+        }
     },
 
     completeLearningSession() {
         const progressStore = useProgressStore();
+        const dailySummaryStore = useDailySummaryStore();
+
+        if (!progressStore.streak || typeof progressStore.streak !== 'object' || progressStore.streak === null) {
+            progressStore.streak = { current: 0, lastLearnedDate: null };
+        }
+
+        if (this.currentRoundAnswers.length > 0 && !this.isReviewRound) {
+            dailySummaryStore.addExerciseSummary({
+                chapterTitle: `${this.selectedLevel} - ${this.selectedMainChapter ? this.selectedMainChapter + ' - ' : ''}${this.selectedChapter}`,
+                quizType: this.currentQuizType,
+                timestamp: Date.now(),
+                results: this.currentRoundAnswers
+            });
+        }
+
         const correctlyLearnedCount = this.currentQuizType === 'flashcards' ? this.sureCount : this.roundCorrectCount;
         if (correctlyLearnedCount === 0 && !this.isReviewRound) return;
-        const today = new Date(), todayString = today.toDateString();
+
+        const today = new Date();
+        const todayString = today.toDateString();
+
         if (progressStore.streak.lastLearnedDate !== todayString) {
             const yesterday = new Date();
             yesterday.setDate(yesterday.getDate() - 1);
-            progressStore.streak.current = progressStore.streak.lastLearnedDate === yesterday.toDateString() ? progressStore.streak.current + 1 : 1;
+            progressStore.streak.current = (progressStore.streak.lastLearnedDate === yesterday.toDateString()) ? (progressStore.streak.current || 0) + 1 : 1;
             progressStore.streak.lastLearnedDate = todayString;
         }
+
         progressStore.totalXp += correctlyLearnedCount;
         const weekKey = getWeekNumber(today);
-        if (!progressStore.weeklyStats[weekKey]) progressStore.weeklyStats[weekKey] = 0;
-        progressStore.weeklyStats[weekKey] += correctlyLearnedCount;
-        const year = today.getFullYear(), month = String(today.getMonth() + 1).padStart(2, '0'), day = String(today.getDate()).padStart(2, '0'), todayKey = `${year}-${month}-${day}`;
-        if (!progressStore.dailyVocabCount[todayKey]) progressStore.dailyVocabCount[todayKey] = 0;
-        progressStore.dailyVocabCount[todayKey] += correctlyLearnedCount;
+        progressStore.weeklyStats[weekKey] = (progressStore.weeklyStats[weekKey] || 0) + correctlyLearnedCount;
+        const todayKey = today.toISOString().slice(0, 10);
+        progressStore.dailyVocabCount[todayKey] = (progressStore.dailyVocabCount[todayKey] || 0) + correctlyLearnedCount;
+
         progressStore.saveProgress();
         this.checkAndAwardAchievements('SESSION_END');
         this.checkAndUnlockRewards();
+
+        if (!this.isReviewRound && this.incorrectlyAnsweredWordsGlobal.length === 0) {
+            this.markChapterAsCompleted();
+        }
     },
 
     markChapterAsStarted() {
@@ -206,10 +291,10 @@ export const useAppStore = defineStore('app', {
           if (progressStore.unlockedAchievements.includes(achievement.id)) continue;
           let unlocked = false;
           switch (achievement.id) {
-              case 'DAILY_ROUTINE':       if (eventType === 'SESSION_END' && progressStore.streak.current >= 3) unlocked = true; break;
-              case 'WEEKLY_CHAMPION':     if (eventType === 'SESSION_END' && progressStore.streak.current >= 7) unlocked = true; break;
-              case 'PERSEVERANCE':        if (eventType === 'SESSION_END' && progressStore.streak.current >= 14) unlocked = true; break;
-              case 'MONTHLY_MASTER':      if (eventType === 'SESSION_END' && progressStore.streak.current >= 30) unlocked = true; break;
+              case 'DAILY_ROUTINE':       if (eventType === 'SESSION_END' && (progressStore.streak.current || 0) >= 3) unlocked = true; break;
+              case 'WEEKLY_CHAMPION':     if (eventType === 'SESSION_END' && (progressStore.streak.current || 0) >= 7) unlocked = true; break;
+              case 'PERSEVERANCE':        if (eventType === 'SESSION_END' && (progressStore.streak.current || 0) >= 14) unlocked = true; break;
+              case 'MONTHLY_MASTER':      if (eventType === 'SESSION_END' && (progressStore.streak.current || 0) >= 30) unlocked = true; break;
               case 'VOCAB_COLLECTOR':     if (eventType === 'SESSION_END' && progressStore.totalXp >= 100) unlocked = true; break;
               case 'VOCAB_VIRTUOSO':      if (eventType === 'SESSION_END' && progressStore.totalXp >= 500) unlocked = true; break;
               case 'LEXICON_LEGEND':      if (eventType === 'SESSION_END' && progressStore.totalXp >= 1000) unlocked = true; break;

@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAppStore } from '@/stores/appStore';
 
@@ -7,7 +7,7 @@ const appStore = useAppStore();
 const router = useRouter();
 
 // Lokaler Zustand für die Optionen
-const selectedVocabCount = ref('0'); // 0 für "Alle"
+const selectedVocabCount = ref('0'); // 0 für "Alle" als sicherer Standard
 const selectedDirection = ref('frToDe');
 
 const chapterVocab = computed(() => {
@@ -21,9 +21,28 @@ const chapterVocab = computed(() => {
 
 const totalVocabCount = computed(() => chapterVocab.value.length);
 
+// KORRIGIERT: Erstellt die Optionen in 5er-Schritten korrekt
+const vocabCountOptions = computed(() => {
+  const options = [];
+  const total = totalVocabCount.value;
+  if (total > 0) {
+    for (let i = 5; i <= total; i += 5) {
+      options.push(i);
+    }
+  }
+  return options;
+});
+
+// Stellt sicher, dass eine gültige Option ausgewählt ist, wenn sich die Gesamtzahl ändert
+watch(totalVocabCount, (newTotal) => {
+  if (parseInt(selectedVocabCount.value, 10) > newTotal) {
+    selectedVocabCount.value = '0'; // Auf "Alle" zurücksetzen, wenn die Auswahl ungültig wird
+  }
+}, { immediate: true });
+
+
 function startQuiz(quizType) {
   appStore.setQuizDirection(selectedDirection.value);
-
   const options = { vocabCount: parseInt(selectedVocabCount.value, 10) };
   const success = appStore.startQuiz(quizType, options);
 
@@ -46,11 +65,8 @@ function goBack() {
     <div class="option-box">
       <label for="vocabCount" class="option-label">Wie viele Vokabeln?</label>
       <select id="vocabCount" v-model="selectedVocabCount" class="option-select">
-        <option value="10" :disabled="totalVocabCount > 0 && totalVocabCount < 10">
-          10 Vokabeln
-        </option>
-        <option value="20" :disabled="totalVocabCount > 0 && totalVocabCount < 20">
-          20 Vokabeln
+        <option v-for="count in vocabCountOptions" :key="count" :value="count">
+          {{ count }} Vokabeln
         </option>
         <option value="0">Alle ({{ totalVocabCount }})</option>
       </select>
@@ -95,7 +111,7 @@ function goBack() {
 }
 .option-label {
   display: block;
-  font-weight: 500; /* KORRIGIERT: von font-medium zu font-weight */
+  font-weight: 500;
   color: #374151;
   margin-bottom: 0.75rem;
 }

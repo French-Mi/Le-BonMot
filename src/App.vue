@@ -14,19 +14,22 @@ const endLoading = () => {
   if (isLoading.value) {
     isLoading.value = false;
     window.removeEventListener('keydown', endLoading);
-    clearTimeout(timeoutId);
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+    }
   }
 };
 
 onMounted(() => {
-  // KORREKTUR: Dauer auf 1 Sekunde verkürzt
   timeoutId = setTimeout(endLoading, 1000);
   window.addEventListener('keydown', endLoading);
 });
 
 onUnmounted(() => {
   window.removeEventListener('keydown', endLoading);
-  clearTimeout(timeoutId);
+  if (timeoutId) {
+    clearTimeout(timeoutId);
+  }
 });
 </script>
 
@@ -41,11 +44,14 @@ onUnmounted(() => {
     </div>
   </div>
 
-  <div v-else class="app-container">
+  <div v-else class="app-layout">
     <AppHeader />
     <main class="main-content">
       <RouterView />
     </main>
+    <footer class="app-footer">
+        <p>&copy; Miriam Betz, Alle Rechte vorbehalten.</p>
+    </footer>
     <NotificationToast
       :notification="appStore.notification"
     />
@@ -75,6 +81,7 @@ body {
   font-family: 'Inter', sans-serif;
   background-color: var(--page-background);
   color: var(--dark-text);
+  margin: 0;
 }
 
 .view-container {
@@ -142,7 +149,6 @@ body {
   line-height: 1;
 }
 
-/* KORREKTUR: Styling für den neuen Untertitel */
 .loading-screen .subtitle-trainer {
   font-family: serif;
   font-style: italic;
@@ -152,16 +158,26 @@ body {
   color: rgba(255, 255, 255, 0.9);
 }
 
-.app-container {
+/* NEUE STILE FÜR DAS LAYOUT UND DEN FOOTER */
+.app-layout {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  animation: fadeIn 0.5s ease-in-out;
 }
 
 .main-content {
   flex-grow: 1;
 }
+
+.app-footer {
+  padding: 1rem;
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--muted-text);
+  background-color: var(--page-background);
+  border-top: 1px solid var(--border-color);
+}
+
 
 @keyframes fadeIn {
   from {
